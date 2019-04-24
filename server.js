@@ -7,6 +7,8 @@ const morgan = require('morgan'); // used to see requests
 const db = require('./models');
 const PORT = process.env.PORT || 3001;
 
+
+
 const isAuthenticated = require("./config/isAuthenticated");
 const auth = require("./config/auth");
 
@@ -29,6 +31,9 @@ mongoose
   .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/appDB', {useNewUrlParser: true, useCreateIndex: true})
   .then(() => console.log("MongoDB Connected!"))
   .catch(err => console.error(err));
+
+// Twilio Routes
+require("./twilioRoutes")(app);
 
 
 // LOGIN ROUTE
