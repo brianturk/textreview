@@ -24,22 +24,22 @@ const UserSchema = new Schema({
   },
   streetAdress: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   city: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   state: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   zipCode: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   createdAt: {
