@@ -17,7 +17,8 @@ class Signup extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.signUpUser(this.state.username, this.state.email, this.state.password)
+    API.signUpUser(this.state.username, this.state.email, this.state.password,
+                  this.address, this.city, this.state, this.zip)
       .then(res => {
         // once the user has signed up
         // send them to the login page
@@ -66,6 +67,44 @@ class Signup extends Component {
                    id="pwd"
                    onChange={this.handleChange}/>
           </div>
+
+          <div className="form-group">
+            <label htmlFor="street">Street Address:</label>
+            <input className="form-control"
+                   placeholder="Password goes here..."
+                   name="street"
+                   type="text"
+                   id="street"
+                   onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="city">City:</label>
+            <input className="form-control"
+                   placeholder="City goes here..."
+                   name="city"
+                   type="text"
+                   id="city"
+                   onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="state">State:</label>
+            <input className="form-control"
+                   placeholder="State goes here..."
+                   name="state"
+                   type="text"
+                   id="state"
+                   onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="zip">Zip Code:</label>
+            <input className="form-control"
+                   placeholder="Zip code goes here..."
+                   name="zip"
+                   type="text"
+                   id="zip"
+                   onChange={this.handleChange}/>
+          </div>
+
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
         <p><Link to="/login">Go to Login</Link></p>
