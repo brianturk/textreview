@@ -4,11 +4,8 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const morgan = require('morgan'); // used to see requests
-const db = require('./models');
 const PORT = process.env.PORT || 3001;
 
-const isAuthenticated = require("./config/isAuthenticated");
-const auth = require("./config/auth");
 
 // Setting CORS so that any website can
 // Access our API
@@ -31,6 +28,7 @@ mongoose
   .catch(err => console.error(err));
 
 
+<<<<<<< HEAD
 // LOGIN ROUTE
 app.post('/api/login', (req, res) => {
   auth
@@ -67,6 +65,8 @@ app.get('/', isAuthenticated /* Using the express jwt MW here */, (req, res) => 
   res.send('You are authenticated'); //Sending some response when authenticated
 });
 
+=======
+>>>>>>> 6aa0ae6a06b141229ab3f489dc64753350913b68
 // Error handling
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') { // Send the error rather than to show it on the console
@@ -77,8 +77,18 @@ app.use(function (err, req, res, next) {
   }
 });
 
+
+ // Serve up static assets (usually on heroku)
+ if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
 // Send every request to the React app
 // Define any API routes before this runs
+require("./routes/apiRoutes.js")(app);
+// require("./routes/htmlRoutes.js")(app);    
+
+
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
