@@ -22,10 +22,44 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  streetAdress: {
+    type: String,
+    required: false,
+    trim: true
+  },
+  city: {
+    type: String,
+    required: false,
+    trim: true
+  },
+  state: {
+    type: String,
+    required: false,
+    trim: true
+  },
+  zipCode: {
+    type: String,
+    required: false,
+    trim: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  locations: [
+    {
+      // Store ObjectIds in the array
+      type: Schema.Types.ObjectId,
+      ref: "Location"
+    }
+  ],
+  customers: [
+    {
+      // Store ObjectIds in the array
+      type: Schema.Types.ObjectId,
+      ref: "Customer"
+    }
+  ]
 });
 
 // Execute before each user.save() call
