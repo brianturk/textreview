@@ -22,7 +22,7 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  streetAdress: {
+  streetAddress: {
     type: String,
     required: false,
     trim: true

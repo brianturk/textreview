@@ -9,6 +9,7 @@ const db = require("../models");
 
 module.exports = app => {
 
+
     app.get("/api/twilio/sendTestMessage", (req, res) => {
         client.messages
             .create({
@@ -24,33 +25,63 @@ module.exports = app => {
 
     app.post("/api/twilio/sms", (req, res) => {
         console.log(req.body);
+        //Default response that will be sent to the consumer.
+        let responseToSend = "Starting message";
 
-        //Search for existing customer by incoming telephone number
-        db.Customer
-            .findOne({telephone: req.body.From})
-            .then(dbCustomer => {
-                console.log(dbCustomer);
-                //Check if the record exists
-                if (dbCustomer) {
-                    //Respond
+        //Search for existing Texts by incoming telephone number
+        db.Text
+            .find({ customerNumber: req.body.From })
+            .then(dbText => {
+                console.log("Initial DB Query");
+                console.log(dbText);
+                //Check if any records from the incoming number exist and are not complete.
+                unfinishedTexts = dbText.filter(text => !text.reviewComplete);
+                if (unfinishedTexts.length > 0) {
+                    //Add the incoming message to the text and then send it to handleIncomingMessage
+                    db.Text
+                        .findOneAndUpdate({_id: unfinishedTexts[0]._id}, {$push: {messages: req.body.Body}}, {new: true})
+                        .then(dbText => {
+                            responseToSend = handleIncomingMessage(dbText);
+                            const twiml = new MessagingResponse();
+                            twiml.message(responseToSend);
+                            res.writeHead(200, { 'Content-Type': 'text/xml' });
+                            res.end(twiml.toString());
+                        })
+                        .catch(err => console.log(err));
                 }
+                //If they don't exist...
                 else {
-                    //Add customer if they don't exist
-                    db.Customer
-                        .create({telephone: req.body.From,})
-                        .then(dbCustomer => {
-                            console.log(dbCustomer);
+                    //Add the new Text to database
+                    db.Text
+                        .create({
+                            customerNumber: req.body.From,
+                            clientNumber: req.body.To,
+                            messages: [req.body.Body]
+                        })
+                        .then(dbText => {
+                            console.log("Newly created Text");
+                            console.log(dbText);
+                            responseToSend = handleIncomingMessage(dbText);
+                            const twiml = new MessagingResponse();
+                            twiml.message(responseToSend);
+                            res.writeHead(200, { 'Content-Type': 'text/xml' });
+                            res.end(twiml.toString());
                         })
                         .catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err));
 
-        const twiml = new MessagingResponse();
-        twiml.message('The Robots are coming! Head for the hills!');
-      
-        res.writeHead(200, {'Content-Type': 'text/xml'});
-        res.end(twiml.toString());
-      });
+
+    });
+    
+    function handleIncomingMessage(text) {
+        console.log("Text from inside handleIncomingMessage");
+        console.log(text);
+        if (text.storeNumber === 0) {
+            return "Send a store number!"
+        }
+        else return "Default"
+    }
 
 }
