@@ -6,8 +6,6 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const http = require('http');
 
 
-//Routing
-
 module.exports = app => {
 
     app.get("/api/twilio/sendTestMessage", (req, res) => {
