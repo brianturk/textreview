@@ -71,7 +71,7 @@ class Signup extends Component {
           <div className="form-group">
             <label htmlFor="street">Street Address:</label>
             <input className="form-control"
-                   placeholder="Password goes here..."
+                   placeholder="Street goes here..."
                    name="street"
                    type="text"
                    id="street"
