@@ -1,28 +1,35 @@
+
+// Each user can have multiple locations they are tracking for text reviews
+// This page allows users to add those locations to the system
+
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import AuthService from './../components/AuthService';
 import API from './../utils/API';
 
-class Signup extends Component {
+class AddLocation extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
   }
 
-  componentWillMount() {
-    if (this.Auth.loggedIn()) {
-      this.props.history.replace('/');
-    }
-  }
+//   componentWillMount() {
+//     if (this.Auth.loggedIn()) {
+//       this.props.history.replace('/');
+//     }
+//   }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.signUpUser(this.state.username, this.state.email, this.state.password,
-                  this.address, this.city, this.state, this.zip)
+    API.addLocation(this.state.username, 
+                    this.address, 
+                    this.city, 
+                    this.state, 
+                    this.zip)
       .then(res => {
-        // once the user has signed up
-        // send them to the login page
-        this.props.history.replace('/login');
+        // once the user has added a location
+        // send them to the home page
+        this.props.history.replace('/');
       })
       .catch(err => alert(err));
   };
@@ -38,36 +45,17 @@ class Signup extends Component {
     return (
       <div className="container">
 
-        <h1>Signup</h1>
+        <h1>Add Location</h1>
         <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="locationname">Location Name:</label>
             <input className="form-control"
-                   placeholder="Username goes here..."
-                   name="username"
+                   placeholder="Location name goes here..."
+                   name="locationname"
                    type="text"
-                   id="username"
+                   id="locationname"
                    onChange={this.handleChange}/>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">Email address:</label>
-            <input className="form-control"
-                   placeholder="Email goes here..."
-                   name="email"
-                   type="email"
-                   id="email"
-                   onChange={this.handleChange}/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="pwd">Password:</label>
-            <input className="form-control"
-                   placeholder="Password goes here..."
-                   name="password"
-                   type="password"
-                   id="pwd"
-                   onChange={this.handleChange}/>
-          </div>
-
           <div className="form-group">
             <label htmlFor="street">Street Address:</label>
             <input className="form-control"
@@ -107,10 +95,10 @@ class Signup extends Component {
 
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
-        <p><Link to="/login">Go to Login</Link></p>
+        <p><Link to="/home">Go to Home</Link></p>
       </div>
     );
   }
 }
 
-export default Signup;
+export default AddLocation;

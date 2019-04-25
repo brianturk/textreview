@@ -11,6 +11,7 @@ import axios from "axios";
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
+import AddLocation from './pages/AddLocation';
 import Navbar from './components/Navbar';
 
 // Here is if we have an id_token in localStorage
@@ -27,6 +28,8 @@ ReactDOM.render(
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/addlocation" component={AddLocation} />            
+
         </div>
     </Router>
     , document.getElementById('root')
