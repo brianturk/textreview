@@ -52,13 +52,6 @@ const UserSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Location"
     }
-  ],
-  customers: [
-    {
-      // Store ObjectIds in the array
-      type: Schema.Types.ObjectId,
-      ref: "Customer"
-    }
   ]
 });
 
