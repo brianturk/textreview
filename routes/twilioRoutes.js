@@ -41,7 +41,7 @@ module.exports = app => {
                     db.Text
                         .findOneAndUpdate({_id: unfinishedTexts[0]._id}, {$push: {messages: req.body.Body}}, {new: true})
                         .then(dbText => {
-                            responseToSend = handleIncomingMessage(dbText);
+                            responseToSend = handleIncomingMessage(dbText).bind ;
                             const twiml = new MessagingResponse();
                             twiml.message(responseToSend);
                             res.writeHead(200, { 'Content-Type': 'text/xml' });
