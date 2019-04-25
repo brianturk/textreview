@@ -65,3 +65,6 @@ typings/
 
 # Webstorm
 .idea/
+
+# Added by Richard to eliminate merge conflicts on this file
+package-lock.json
