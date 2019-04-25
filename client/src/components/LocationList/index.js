@@ -22,8 +22,17 @@ class LocationList extends Component {
 
 
   state = {
-    locationList: [{locationName : "San Diego"},{locationName : "San Francisco"},{locationName : "Seattle"} ]
-  };
+    locationList: [{ locationName : "Store #1",
+                     street : "University Ave.",
+                     city   : " San Diego"},
+                  {  locationName : "Store #2",
+                     street : "Lombard St.",
+                     city   : " San Francisco"},
+                  {  locationName : "Store #3",
+                     street : "Denny Way",
+                     city   : " Seattle"} 
+                ]};
+                  
 
   // componentDidMount() {
   //   API
@@ -37,13 +46,25 @@ class LocationList extends Component {
         return (
 
           <div className="jumbotron">
-             <h6>LocationList component loaded for </h6>   
 
-            {this.locationList.map( locationname => (
-              <div>
-                <p> location name: {locationname} </p>
-              </div> 
-            ))};
+             <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Location name</th>
+                            <th>Street</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.locationList.map(loc => (
+                            <tr key={loc.name}>
+                                <td>{loc.locationName}</td>
+                                <td>{loc.street}</td>
+                                <td>{loc.city}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+              </table>
 
           </div>
         );
