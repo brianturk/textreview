@@ -26,7 +26,11 @@ const LocationSchema = new Schema({
     type: String,
     required: true,
     trim: true
-  }
+  },
+  client_id:
+  {
+    type: Schema.Types.ObjectId
+  },
 });
 
 

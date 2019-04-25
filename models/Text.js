@@ -56,7 +56,6 @@ const TextSchema = new Schema({
     //The ID of the client this review is for.
     client_id:
         {
-          // Store ObjectIds in the array
           type: Schema.Types.ObjectId
         },
     //The time the message was initially added to the database.
