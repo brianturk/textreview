@@ -32,7 +32,7 @@ export default {
     // -----------------------------------------------------------------------------------------
     // app.get("/api/user/:id", function(req, res) {
     getLocations: (id ) => {
-      return axios.post(`api/user/${id}`);
+      return axios.get(`api/user/${id}`);
     },
 
 
