@@ -21,7 +21,7 @@ class AddLocation extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.addLocation(this.state.username, 
+    API.addLocation(this.username, 
                     this.address, 
                     this.city, 
                     this.state, 

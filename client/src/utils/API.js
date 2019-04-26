@@ -3,25 +3,58 @@ import AddLocation from '../pages/AddLocation';
 
 
 export default {
-  // Gets a single user by id
-  getUser: (id) => {
-    return axios.get(`/api/user/${id}`);
-  },
-  // sign up a user to our service
-  signUpUser: (username, email, password, street, city, state, zip) => {
-    return axios.post('api/signup', {username: username, email: email, password: password, street: street,
-    city: city, state:state, zip:zip } );
-  },
 
-  
-  // get all locations
-  getAllLocations: (username ) => {
-    return axios.post(`api/getlocations/${username}`);
-  },
+    // ROUTE FOR GETTING USER
+    // TODO MODIFY ROUTE AND SERVER SIDE TO GET WITHOUT POPULATING LOCATIONS
+    // -----------------------------------------------------------------------------------------
+    // app.get("/api/user/:id", function(req, res) {
+    getUser: (id) => {
+      return axios.get(`/api/user/${id}`);
+    },
 
-  // add a loction
-  AddLocation : (user, location) => {
-    return axios.post('api/signup', { username : this.state.username,  location: location } );
+
+    // SIGNUP ROUTE
+    // -----------------------------------------------------------------------------------------
+    // app.post('/api/signup', (req, res) => {
+    signUpUser: (username, email, password, street, city, state, zip) => {
+      return axios.post('api/signup', { 
+                                        username : username, 
+                                        email :    email, 
+                                        password : password, 
+                                        street :   street,
+                                        city :     city, 
+                                        state :    state, 
+                                        zip :      zip } );
+                                      },
+
+    
+    // ROUTE FOR GETTING A USER AND ALL ITS LOCATIONS
+    // -----------------------------------------------------------------------------------------
+    // app.get("/api/user/:id", function(req, res) {
+    getLocations: (id ) => {
+      return axios.get(`api/user/${id}`);
+    },
+
+
+    // ROUTE FOR ADDING A LOCATION TO LOCATION COLLECTION AND ADDING ITS LINK TO USER
+    // -----------------------------------------------------------------------------------------
+    // app.post("/api/addlocation/:id", function(req, res) {     
+      //
+      //  How to get the userid from the state of the Location object 
+      //  from around line 25 of AddLocation.js, which calls this API.addLocation
+      //  userid is needed to create a location, but its not obvious how to get
+      //  that inside the AddLocation object.
+
+    addLocation : (locationName, street, city, state, zip, phonenumber, userid) => {
+      return axios.post(`api/addlocation/${userid}`, {  
+                                                    locationName :    locationName,  
+                                                    street :          street,
+                                                    city :            city,
+                                                    state :           state,
+                                                    zip :             zip,
+                                                    phonenumber :     phonenumber,
+                                                    userid :          userid
+                                                  })
+      }
   }
 
-};

@@ -2,26 +2,13 @@
 // in a list and shows edit and delete buttons for each one
 
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import AuthService from '../AuthService';
 import API from '../../utils/API';
-
-
-// function LList(props) {
-
-//   return(
-//     <div className="jumbotron">
-//       <h1>List of locations  </h1>   
-//     </div>   
-//   )
-// }))
-
-// export default LList
 
 class LocationList extends Component {
 
 
   state = {
+    //locationList: [],
     locationList: [{ locationName : "Store #1",
                      street : "University Ave.",
                      city   : " San Diego"},
@@ -31,13 +18,19 @@ class LocationList extends Component {
                   {  locationName : "Store #3",
                      street : "Denny Way",
                      city   : " Seattle"} 
-                ]};
+                ]
+  }
                   
 
+  // TODO need to get user ID into the API.getLocations(userid) call
+  // How to derive that from inside LocationList?
   // componentDidMount() {
-  //   API
-  //       .getAllLocations()
-  //       .then(response => this.setState({ locationList: response.data }))
+  //   console.log(this.state.user);
+  //   API.getLocations()
+  //       .then(response => {
+  //         console.log(response.data);
+  //         this.setState({ locationList: response.data })
+  //       })
   //       .catch(err => console.log(err));
   //   }
 
