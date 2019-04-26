@@ -41,6 +41,9 @@ app.use(function (err, req, res, next) {
   app.use(express.static("client/build"));
 }
 
+// User Create Routes
+require("./routes/userCreateRoutes")(app);
+
 // Twilio Routes
 require("./routes/twilioRoutes")(app);
 

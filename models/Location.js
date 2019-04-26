@@ -2,7 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LocationSchema = new Schema({
-  streetAddress: {
+  locationName: {
+    type: String,
+    required: false,
+    trim: true
+  },  
+    street: {
     type: String,
     required: false,
     trim: true
@@ -17,7 +22,7 @@ const LocationSchema = new Schema({
     required: false,
     trim: true
   },
-  zipCode: {
+  zip: {
     type: String,
     required: false,
     trim: true
@@ -26,6 +31,9 @@ const LocationSchema = new Schema({
     type: String,
     required: true,
     trim: true
+  },
+  userid: {
+    type: String
   }
 });
 
