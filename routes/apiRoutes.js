@@ -26,4 +26,59 @@ module.exports = app => {
       }).catch(err => res.status(400).send(err));
     });
 
+
+    //just used to create dummy data for the demonstration
+    app.post('/api/createdata/', (req,res) => {
+      let passcode = 'sasparilla'  //passcode so no one creates dummy data accidentally
+
+      if (req.body.passcode === 'sasparilla'){
+        let user = 
+          {
+            username: 'vernsair',
+            email: 'bturksub@gmail.com',
+            password: 'password',
+            streetaddress: '123 West Elm Ln',
+            city: 'San Diego',
+            state: 'CA',
+            zipCode: '87343'
+          }
+        
+        let locations = [
+            {
+              streetAddress: '14 Pacific Dr',
+              city: 'La Jolla',
+              state: 'CA',
+              zipCode: '92037',
+              phonenumber: '8585552323'
+            },
+            {
+              streetAddress: '14 Atlantic Ave',
+              city: 'El Cajon',
+              state: 'CA',
+              zipCode: '67047',
+              phonenumber: '7603437766'
+            },
+            {
+              streetAddress: '120 Pacific Dr',
+              city: 'La Jolla',
+              state: 'CA',
+              zipCode: '92037',
+              phonenumber: '8585552323'
+            },
+            {
+              streetAddress: '14 Pacific Dr',
+              city: 'La Jolla',
+              state: 'CA',
+              zipCode: '92037',
+              phonenumber: '8585552323'
+            }
+          ]
+        
+        //create 4
+
+
+
+      }
+    }
+
 }
