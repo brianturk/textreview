@@ -27,9 +27,9 @@ export default {
   },
 
   // add a location
-  addLocation : (user, username, street, city, state, zip, phonenumber, userid) => {
+  addLocation : (locationName, street, city, state, zip, phonenumber, userid) => {
     return axios.post(`api/addlocation/${user}`, {  
-                                                  username :        username,  
+                                                  locationName :    locationName,  
                                                   street :          street,
                                                   city :            city,
                                                   state :           state,

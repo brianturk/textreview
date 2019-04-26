@@ -2,7 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LocationSchema = new Schema({
-  street: {
+  locationName: {
+    type: String,
+    required: false,
+    trim: true
+  },  
+    street: {
     type: String,
     required: false,
     trim: true
