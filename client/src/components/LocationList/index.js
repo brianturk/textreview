@@ -2,9 +2,9 @@
 // in a list and shows edit and delete buttons for each one
 
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import AuthService from '../AuthService';
-import API from '../../utils/API';
+//import {Link} from 'react-router-dom';
+//import AuthService from '../AuthService';
+//import API from '../../utils/API';
 
 
 // function LList(props) {
