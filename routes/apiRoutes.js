@@ -6,79 +6,221 @@ const auth = require("../config/auth");
 // LOGIN ROUTE
 module.exports = app => {
 
-    app.post('/api/login', (req, res) => {
-        auth
-          .logUserIn(req.body.email, req.body.password)
-          .then(dbUser => res.json(dbUser))
-          .catch(err => res.status(400).json(err));
-    });
-  
-
-    // Any route with isAuthenticated is protected and you need a valid token
-    // to access
-    app.get('/api/user/:id', isAuthenticated, (req, res) => {
-      db.User.findById(req.params.id).then(data => {
-        if(data) {
-          res.json(data);
-        } else {
-          res.status(404).send({success: false, message: 'No user found'});
-        }
-      }).catch(err => res.status(400).send(err));
-    });
+  app.post('/api/login', (req, res) => {
+    auth
+      .logUserIn(req.body.email, req.body.password)
+      .then(dbUser => res.json(dbUser))
+      .catch(err => res.status(400).json(err));
+  });
 
 
-    //just used to create dummy data for the demonstration
-    app.post('/api/createdata/', (req,res) => {
-      let passcode = 'sasparilla'  //passcode so no one creates dummy data accidentally
-
-      if (req.body.passcode === 'sasparilla'){
-        let user = 
-          {
-            username: 'vernsair',
-            email: 'bturksub@gmail.com',
-            password: 'password',
-            streetaddress: '123 West Elm Ln',
-            city: 'San Diego',
-            state: 'CA',
-            zipCode: '87343'
-          }
-        
-        let locations = [
-            {
-              streetAddress: '14 Pacific Dr',
-              city: 'La Jolla',
-              state: 'CA',
-              zipCode: '92037',
-              phonenumber: '8585552323'
-            },
-            {
-              streetAddress: '14 Atlantic Ave',
-              city: 'El Cajon',
-              state: 'CA',
-              zipCode: '67047',
-              phonenumber: '7603437766'
-            },
-            {
-              streetAddress: '120 Pacific Dr',
-              city: 'La Jolla',
-              state: 'CA',
-              zipCode: '92037',
-              phonenumber: '8585552323'
-            },
-            {
-              streetAddress: '14 Pacific Dr',
-              city: 'La Jolla',
-              state: 'CA',
-              zipCode: '92037',
-              phonenumber: '8585552323'
-            }
-          ]
-        
-        //create 4
-
-
-
+  // Any route with isAuthenticated is protected and you need a valid token
+  // to access
+  app.get('/api/user/:id', isAuthenticated, (req, res) => {
+    db.User.findById(req.params.id).then(data => {
+      if (data) {
+        res.json(data);
+      } else {
+        res.status(404).send({ success: false, message: 'No user found' });
       }
+    }).catch(err => res.status(400).send(err));
+  });
+
+
+  //just used to create dummy data for the demonstration
+  app.post('/api/createdata/', (req, res) => {
+
+
+    let passcode = 'sasparilla'  //passcode so no one creates dummy data accidentally
+
+    if (req.body.passcode === 'sasparilla') {
+      let user =
+      {
+        username: 'vernsair',
+        email: 'bturksub@gmail.com',
+        password: 'password',
+        streetaddress: '123 West Elm Ln',
+        city: 'San Diego',
+        state: 'CA',
+        zipCode: '87343'
+      }
+
+      let locations = [
+        {
+          locationName: 'Pacific',
+          streetAddress: '14 Pacific Dr',
+          city: 'La Jolla',
+          state: 'CA',
+          zipCode: '92037',
+          phonenumber: '8585552323'
+        },
+        {
+          locationName: 'Atlantic',
+          streetAddress: '14 Atlantic Ave',
+          city: 'El Cajon',
+          state: 'CA',
+          zipCode: '67047',
+          phonenumber: '7603437766'
+        },
+        {
+          locationName: 'West Elm',
+          streetAddress: '120 West Elm St',
+          city: 'La Jolla',
+          state: 'CA',
+          zipCode: '92037',
+          phonenumber: '8585552323'
+        },
+        {
+          locationName: 'Yankee',
+          streetAddress: '30 Yankee Way',
+          city: 'La Jolla',
+          state: 'CA',
+          zipCode: '92037',
+          phonenumber: '8585552323'
+        }
+      ]
+
+
+      db.User.findOne({
+        email: 'bturksub@gmail.com'
+      })
+        .then(async data => {
+
+          if (!data) {
+            data = await createUser(user)
+          }
+
+
+          //create locations with user id
+          var id = data._id
+          locations.forEach(item => {
+
+            item.userid = id;
+            db.Location.findOne({
+              locationName: item.locationName,
+              userid: id
+            })
+              .then(async data => {
+                if (!data) { ///not found create
+                  data = await createLocation(item)
+                }
+                else {  //update with correct user
+                  data = await updateLocation(item)
+                }
+
+
+                //create texts 
+                var numbers = []
+                //create 1000 different phone numbers ranging from 555555555 to 999999999
+                for (x = 0; x < 10000; x++) {
+                  var digits = Math.floor(Math.random() * 9000000000) + 1000000000;
+                  numbers.push(digits)
+
+                }
+
+                /*Three types of messages. 
+                  1.  Initial send without ratings
+                  2.  Inital send with rating
+                  3.  Comment
+                */
+
+                var goodComments = [
+                  "I loved my meal",
+                  "Great service",
+                  "I had a great time at your business.  Thank you",
+                  "My food tasted great",
+                  "Wow, I will make sure to come back again because the food was great",
+                  "The service was excellent. Really nice people work here",
+                  "Keep up the good work",
+                  "Thank you for a great experience.",
+                  "Well done.  The food was served quickly and tasted great"
+                ]
+
+                var badComments = [
+                  "I hated my meal",
+                  "Poor service",
+                  "I had a terrible time at your business.  Thank you for nothing",
+                  "My food tasted awful",
+                  "Wow, I will never come back again because the food was horrible",
+                  "The service was poor. Really rude people work here",
+                  "Please improve your service",
+                  "Thanks for nothing.",
+                  "Poorly done.  The food was served slowly and tasted terrible"
+                ]
+
+
+
+
+                for (x = 0; x < 100000; x++) {
+                  //pick random location
+                  var location = locations[Math.floor(Math.random() * locations.length)]
+                  var customer = numbers[Math.floor(Math.random() * numbers.length)]
+                  var rating = Math.floor(Math.random() * 10) + 1
+
+                  var comment = ""
+                  if (rating < 6) {
+                    comment = badComments[Math.floor(Math.random() * badComments.length)]
+                  } else {
+                    comment = goodComments[Math.floor(Math.random() * goodComments.length)]
+                  }
+
+                  var text = 
+
+
+                  db.Text
+                    .create({
+                      customerNumber: req.body.From,
+                      clientNumber: req.body.To,
+                      messages: [req.body.Body]
+                    })
+                    .then(dbText => {
+                      console.log("Newly created Text");
+                      console.log(dbText);
+                      responseToSend = handleIncomingMessage(dbText);
+                      const twiml = new MessagingResponse();
+                      twiml.message(responseToSend);
+                      res.writeHead(200, { 'Content-Type': 'text/xml' });
+                      res.end(twiml.toString());
+                    })
+                    .catch(err => console.log(err))
+
+
+                }
+              })
+
+
+          })
+          res.json(data)
+        })
+
     }
+  })
+
+  function createLocation(item) {
+    return new Promise(async function (resolve, reject) {
+      db.Location.create(item)
+        .then(data => resolve(data))
+        .catch(err => resolve(err))
+    })
+  }
+
+  function updateLocation(item) {
+    return new Promise(async function (resolve, reject) {
+      db.Location.findOneAndUpdate({ locationName: item.locationName }, { userid: item.userid }, { new: true })
+        .then(data => resolve(data))
+        .catch(err => resolve(err))
+    })
+  }
+
+
+  function createUser(user) {
+    return new Promise(async function (resolve, reject) {
+      db.User.create(user)
+        .then(data => resolve(data))
+        .catch(err => resolve(err))
+
+    })
+  }
+
 
 }
