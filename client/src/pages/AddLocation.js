@@ -7,38 +7,44 @@ import {Link} from 'react-router-dom';
 import AuthService from './../components/AuthService';
 import withAuth from './../components/withAuth';
 import API from './../utils/API';
+import Location from './../utils/Location';
 
 class AddLocation extends Component {
 
- //   state = 
-
+    state = {
+        locationName:   "",
+        street:         "",
+        city:           "",
+        state:          "",
+        zip:            "",
+        phonenumber:    "",
+        userid:         ""
+      };
+    
 
   constructor() {
     super();
     this.Auth = new AuthService();
   }
 
-//   componentWillMount() {
-//     if (this.Auth.loggedIn()) {
-//       this.props.history.replace('/');
-//     }
-//   }
 
   handleFormSubmit = event => {
     event.preventDefault();
 
      // addLocation : (locationName, street, city, state, zip, phonenumber, userid) 
-    console.log(this.state.locationName);
-    API.addLocation(this.state.locationName, 
-                    this.state.street, 
-                    this.state.city, 
-                    this.state.state, 
-                    this.state.zip,
-                    this.state.phonenumber,
-                    this.props.user.id)
+    var newLocation = new Location({    
+                                "locationName"  :       this.state.locationName, 
+                                "street"        :       this.state.street, 
+                                "city"          :       this.state.city, 
+                                "state"         :       this.state.state, 
+                                "zip"           :       this.state.zip,
+                                "phonenumber"   :       this.state.phonenumber,
+                                "userid"        :       this.props.user.id
+                            });
+
+    API.addLocation(newLocation)
       .then(res => {
-        // once the user has added a location
-        // send them to the profile page
+        // once the user has added a location send them to the profile page
         this.props.history.replace('/profile');
       })
       .catch(err => alert(err));

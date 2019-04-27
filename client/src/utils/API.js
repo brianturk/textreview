@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Location from './../utils/Location';
 
 export default {
 
@@ -36,17 +37,9 @@ export default {
 
     // ROUTE FOR ADDING A LOCATION TO LOCATION COLLECTION AND ADDING ITS LINK TO USER
     // -----------------------------------------------------------------------------------------
-    // app.post("/api/addlocation/:id", function(req, res) {     
-    addLocation : (locationName, street, city, state, zip, phonenumber, userid) => {
-      return axios.post(`api/addlocation/${userid}`, {  
-                                                    locationName :    locationName,  
-                                                    street :          street,
-                                                    city :            city,
-                                                    state :           state,
-                                                    zip :             zip,
-                                                    phonenumber :     phonenumber,
-                                                    userid :          userid
-                                                  })
+    // app.post("/api/addlocation", function(req, res) {     
+    addLocation : (newLocation) => {
+      return axios.post(`api/addlocation`, newLocation)
       }
   }
 

@@ -1,41 +1,10 @@
 // Location List component shows all location for a given user
 // in a list and shows edit and delete buttons for each one
 
-import React, {Component} from 'react';
-import API from '../../utils/API';
+import React from 'react';
 
-class LocationList extends Component {
+function LocationList(props) {
 
-
-  state = {
-    //locationList: [],
-    locationList: [{ locationName : "Store #1",
-                     street : "University Ave.",
-                     city   : " San Diego"},
-                  {  locationName : "Store #2",
-                     street : "Lombard St.",
-                     city   : " San Francisco"},
-                  {  locationName : "Store #3",
-                     street : "Denny Way",
-                     city   : " Seattle"} 
-                ]
-  }
-                  
-
-  // TODO need to get user ID into the API.getLocations(userid) call
-  // How to derive that from inside LocationList?
-  // componentDidMount() {
-  //   console.log(this.state.user);
-  //   API.getLocations()
-  //       .then(response => {
-  //         console.log(response.data);
-  //         this.setState({ locationList: response.data })
-  //       })
-  //       .catch(err => console.log(err));
-  //   }
-
-
-    render() {
         return (
 
           <div className="jumbotron">
@@ -44,24 +13,29 @@ class LocationList extends Component {
                     <thead>
                         <tr>
                             <th>Location name</th>
+                            <th>Phone number</th>
                             <th>Street</th>
                             <th>City</th>
-                        </tr>
+                            <th>State</th>
+                            <th>Zip</th>
+                          </tr>
                     </thead>
                     <tbody>
-                        {this.state.locationList.map(loc => (
-                            <tr key={loc.name}>
+                        {props.locations.map(loc => (
+                            <tr key={loc.locationName}>
                                 <td>{loc.locationName}</td>
+                                <td>{loc.phonenumber}</td>
                                 <td>{loc.street}</td>
                                 <td>{loc.city}</td>
+                                <td>{loc.state}</td>
+                                <td>{loc.zip}</td>
                             </tr>
                         ))}
                     </tbody>
               </table>
-
           </div>
         );
-      }
 }
+
 
 export default LocationList;
