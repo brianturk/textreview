@@ -38,10 +38,15 @@ module.exports = app => {
                     //check if the message is just a number. If it is, respond back with a message prompting them for a review.
                     //could implement other checking on the message to ensure it's a valid review. I'm not sure how to do that yet, though.
                     if (isNaN(req.body.Body)) {
-                        //If the review complete is false and a record already exists, add the body of what they are sending to the userComment
-                        //part of the Text. Push their text into the messages array to keep track of what they are sending. Mark review as complete.
+                        //If they sent back a valid review, thank them and add the review to the userComment section of the document
+                        //Also closes out the document by marking review complete true because it is now finished.
                         db.Text
-                            .findOneAndUpdate({ _id: dbText[0]._id }, { userComment: req.body.Body, $push: { messages: { textBody: req.body.Body } }, reviewComplete: true, reviewValid: true })
+                            .findOneAndUpdate({ _id: dbText[0]._id }, {
+                                userComment: req.body.Body,
+                                $push: { messages: { textBody: req.body.Body } },
+                                reviewComplete: true,
+                                reviewValid: true
+                            })
                             .then(updatedDbText => {
                                 const twiml = new MessagingResponse();
                                 twiml.message("Thank You for your additional comments!");
@@ -50,10 +55,11 @@ module.exports = app => {
                             })
                             .catch(err => console.log(err));
                     }
-                    //handling if they just sent back a number
+                    //handling if they just sent back a number instead of an actual review.
+                    //Also pushes their message into the messages array for later review if needed.
                     else {
                         db.Text
-                            .findOneAndUpdate({ _id: dbText[0]._id }, {$push: { messages: { textBody: req.body.Body } } })
+                            .findOneAndUpdate({ _id: dbText[0]._id }, { $push: { messages: { textBody: req.body.Body } } })
                             .then(updatedDbText => {
                                 const twiml = new MessagingResponse();
                                 twiml.message("Please respond with any additional comments you would like to add. Your last message didn't look like a comment...");
@@ -80,12 +86,15 @@ module.exports = app => {
                                 rating: parseInt(req.body.Body.trim()),
                                 client_id: dbLocation.userId
                             })
+                                //If the 1-10 review was succesfully added to the database, send this.
                                 .then(newDbText => {
                                     const twiml = new MessagingResponse();
                                     twiml.message("Thank You for your review! If you would like to leave an additional comment, respond to this message.");
                                     res.writeHead(200, { 'Content-Type': 'text/xml' });
                                     res.end(twiml.toString());
                                 })
+                                //If the review was not 1-10, the database won't add it and will return an error.
+                                //We respond with this message prompting the user to try again.
                                 .catch(err => {
                                     console.log(err);
                                     const twiml = new MessagingResponse();
