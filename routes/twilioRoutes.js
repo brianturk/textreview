@@ -23,9 +23,13 @@ module.exports = app => {
             .catch(err => res.json(err));
     })
 
-    
-    app.post("/api/twilio/sms", (req, res) => {
 
+    app.post("/api/twilio/sms", (req, res) => {
+        //Check to see if an unfinished text exists with that incoming number.
+
+            //if it doesn't then create a new text. Search for the locations matching the number the text was sent to
+
+            //if it does, find what step we are at
     });
 
 
