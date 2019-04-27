@@ -64,7 +64,7 @@ class Signup extends Component {
                    placeholder="Password goes here..."
                    name="password"
                    type="password"
-                   id="pwd"
+                   id="password"
                    onChange={this.handleChange}/>
           </div>
 
