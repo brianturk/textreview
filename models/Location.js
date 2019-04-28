@@ -32,7 +32,7 @@ const LocationSchema = new Schema({
     required: true,
     trim: true
   },
-  userid: {
+  userId: {
     type: String
   }
 });
