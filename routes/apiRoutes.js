@@ -1,6 +1,7 @@
 const db = require("../models");
 const isAuthenticated = require("../config/isAuthenticated");
 const auth = require("../config/auth");
+const moment = require("moment");
 
 
 // LOGIN ROUTE
@@ -90,6 +91,35 @@ module.exports = app => {
             data = await createUser(user)
           }
 
+          var goodComments = [
+            "I loved my meal",
+            "Great service",
+            "I had a great time at your business.  Thank you",
+            "My food tasted great",
+            "Wow, I will make sure to come back again because the food was great",
+            "The service was excellent. Really nice people work here",
+            "Keep up the good work",
+            "Thank you for a great experience.",
+            "Well done.  The food was served quickly and tasted great"
+          ]
+
+          var badComments = [
+            "I hated my meal",
+            "Poor service",
+            "I had a terrible time at your business.  Thank you for nothing",
+            "My food tasted awful",
+            "Wow, I will never come back again because the food was horrible",
+            "The service was poor. Really rude people work here",
+            "Please improve your service",
+            "Thanks for nothing.",
+            "Poorly done.  The food was served slowly and tasted terrible"
+          ]
+
+          var firstDay = moment().subtract(31, 'days')
+          var lastDay = moment().subtract(1, 'days')
+          var daysBetween = lastDay.diff(firstDay, 'days')
+
+
 
           //create locations with user id
           var id = data._id
@@ -118,45 +148,29 @@ module.exports = app => {
 
                 }
 
-                /*Three types of messages. 
-                  1.  Initial send without ratings
+                /*Two types of messages. 
                   2.  Inital send with rating
                   3.  Comment
                 */
 
-                var goodComments = [
-                  "I loved my meal",
-                  "Great service",
-                  "I had a great time at your business.  Thank you",
-                  "My food tasted great",
-                  "Wow, I will make sure to come back again because the food was great",
-                  "The service was excellent. Really nice people work here",
-                  "Keep up the good work",
-                  "Thank you for a great experience.",
-                  "Well done.  The food was served quickly and tasted great"
-                ]
 
-                var badComments = [
-                  "I hated my meal",
-                  "Poor service",
-                  "I had a terrible time at your business.  Thank you for nothing",
-                  "My food tasted awful",
-                  "Wow, I will never come back again because the food was horrible",
-                  "The service was poor. Really rude people work here",
-                  "Please improve your service",
-                  "Thanks for nothing.",
-                  "Poorly done.  The food was served slowly and tasted terrible"
-                ]
-
-
-
-
-                for (x = 0; x < 100000; x++) {
+                var location = item
+                var x = 0;
+                for (x = 0; x < 1000; x++) {
                   //pick random location
-                  var location = locations[Math.floor(Math.random() * locations.length)]
+
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
                   var rating = Math.floor(Math.random() * 10) + 1
 
+                  var randomDay = Math.floor(Math.random() * daysBetween) + 1
+                  var firstTime = firstDay.add(randomDay, 'days')
+                  var firstTime = firstTime.add(Math.floor(Math.random() * 24), 'hours')
+                  var firstTime = firstTime.add(Math.floor(Math.random() * 60), 'minutes')
+                  var firstTime = firstTime.add(Math.floor(Math.random() * 60), 'seconds')
+
+                  secondTime = moment(firstTime).add(Math.floor(Math.random() * 60),'minutes');
+
+                  
                   var comment = ""
                   if (rating < 6) {
                     comment = badComments[Math.floor(Math.random() * badComments.length)]
@@ -164,26 +178,26 @@ module.exports = app => {
                     comment = goodComments[Math.floor(Math.random() * goodComments.length)]
                   }
 
-                  var text = 
 
+                  var text = {
+                    customerNumber: customer,
+                    locationPhonenumber: location.phonenumber,
+                    messages: [{
+                      textBody: rating,
+                      timeStamp: firstTime.format()
+                    },
+                    {
+                      textBody: comment,
+                      timeStamp: secondTime.format()
+                    }],
+                    reviewComplete: true,
+                    reviewValid: true,
+                    rating, rating,
+                    client_id: id,
+                    createdAt: firstTime.format()
+                  }
 
-                  db.Text
-                    .create({
-                      customerNumber: req.body.From,
-                      clientNumber: req.body.To,
-                      messages: [req.body.Body]
-                    })
-                    .then(dbText => {
-                      console.log("Newly created Text");
-                      console.log(dbText);
-                      responseToSend = handleIncomingMessage(dbText);
-                      const twiml = new MessagingResponse();
-                      twiml.message(responseToSend);
-                      res.writeHead(200, { 'Content-Type': 'text/xml' });
-                      res.end(twiml.toString());
-                    })
-                    .catch(err => console.log(err))
-
+                  data = await createText(text)
 
                 }
               })
@@ -195,6 +209,17 @@ module.exports = app => {
 
     }
   })
+
+
+
+  function createText(text) {
+    return new Promise(async function (resolve, reject) {
+      db.Text.create(text)
+        .then(data => resolve(data))
+        .catch(err => resolve(err))
+    })
+  }
+
 
   function createLocation(item) {
     return new Promise(async function (resolve, reject) {
