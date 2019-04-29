@@ -9,17 +9,21 @@ class Profile extends Component {
 
   state = {
     username: "",
-    email: ""
+    email: "",
+    locations : []
   };
+
 
   componentDidMount() {
     API.getUser(this.props.user.id).then(res => {
-      this.setState({
-        username: res.data.username,
-        email: res.data.email
+       this.setState({
+        username:   res.data.username,
+        email:      res.data.email,
+        locations:  res.data.locations
       })
     });
   }
+
 
   render() {
     return (
@@ -29,7 +33,9 @@ class Profile extends Component {
         <p>Email: {this.state.email}</p>
         <div>
           <h3> Locations : </h3>
-          <LocationList />
+          <LocationList 
+            locations={this.state.locations}
+          />
         </div>
         <Link to="/addlocation">Add a location</Link>
         <Link to="/">Go home</Link>
@@ -39,3 +45,4 @@ class Profile extends Component {
 }
 
 export default withAuth(Profile);
+
