@@ -84,7 +84,7 @@ module.exports = app => {
                                 ],
                                 reviewValid: true,
                                 rating: parseInt(req.body.Body.trim()),
-                                client_id: dbLocation.userId
+                                userId: dbLocation.userId
                             })
                                 //If the 1-10 review was succesfully added to the database, send this.
                                 .then(newDbText => {
