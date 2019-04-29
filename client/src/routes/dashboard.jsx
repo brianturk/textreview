@@ -1,6 +1,7 @@
 import Dashboard from "./../views/Dashboard/Dashboard.jsx";
 import TableList from "./../views/TableList/TableList.jsx";
 import UserPage from "./../views/UserPage/UserPage.jsx";
+import Detail from "./../pages/Detail"
 
 var dashRoutes = [
   {
@@ -10,10 +11,10 @@ var dashRoutes = [
     component: Dashboard
   },
   {
-    path: "/extended-tables",
+    path: "/Detail",
     name: "Detailed",
     icon: "files_paper",
-    component: TableList
+    component: Detail
   },
   // {
   //   path: "/user-page",
