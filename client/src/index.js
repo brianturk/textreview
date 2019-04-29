@@ -20,6 +20,9 @@ import "./assets/scss/now-ui-dashboard.css";
 import "./assets/css/demo.css";
 import indexRoutes from "./routes/index.jsx";
 
+import Sidebar from './components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./routes/dashboard.jsx";
+
 const hist = createBrowserHistory();
 
 // Here is if we have an id_token in localStorage
@@ -31,7 +34,9 @@ if(localStorage.getItem("id_token")) {
 ReactDOM.render(
     <Router>
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
+            <div className="wrapper">
+        <Sidebar {...this.props} routes={dashboardRoutes} />
             <Switch>
             <Route exact path="/" component={App} />
             <Route exact path="/login" component={Login} />
@@ -42,6 +47,7 @@ ReactDOM.render(
               return <Route path={prop.path} key={key} component={prop.component} />;
             })}
             </Switch>
+            </div>
         </div>
     </Router>
     , document.getElementById('root')

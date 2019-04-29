@@ -36,8 +36,8 @@ class Dashboard extends Component {
   }
   render() {
     return (
-      <div className="wrapper">
-        <Sidebar {...this.props} routes={dashboardRoutes} />
+      // <div className="wrapper">
+      //   <Sidebar {...this.props} routes={dashboardRoutes} />
         <div className="main-panel" ref="mainPanel">
           <Header {...this.props} />
           <Switch>
@@ -62,7 +62,7 @@ class Dashboard extends Component {
           </Switch>
           <Footer fluid />
         </div>
-      </div>
+      // </div>
     );
   }
 }
