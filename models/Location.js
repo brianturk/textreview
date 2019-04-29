@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+var ObjectId = require('mongodb').ObjectID
 
 const LocationSchema = new Schema({
   locationName: {
@@ -16,7 +17,7 @@ const LocationSchema = new Schema({
     type: String,
     required: false,
     trim: true
-  },
+  }, 
   state: {
     type: String,
     required: false,
@@ -32,8 +33,8 @@ const LocationSchema = new Schema({
     required: true,
     trim: true
   },
-  userId: {
-    type: String
+  userid: {
+    type: ObjectId.ObjectID
   }
 });
 

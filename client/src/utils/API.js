@@ -1,6 +1,5 @@
 import axios from 'axios';
-import AddLocation from '../pages/AddLocation';
-
+import Location from './../utils/Location';
 
 export default {
 
@@ -38,27 +37,9 @@ export default {
 
     // ROUTE FOR ADDING A LOCATION TO LOCATION COLLECTION AND ADDING ITS LINK TO USER
     // -----------------------------------------------------------------------------------------
-    // app.post("/api/addlocation/:id", function(req, res) {     
-      //
-      //  How to get the userid from the state of the Location object 
-      //  from around line 25 of AddLocation.js, which calls this API.addLocation
-      //  userid is needed to create a location, but its not obvious how to get
-      //  that inside the AddLocation object.
-
-    addLocation : (locationName, street, city, state, zip, phonenumber, userid) => {
-      return axios.post(`api/addlocation/${userid}`, {  
-                                                    locationName :    locationName,  
-                                                    street :          street,
-                                                    city :            city,
-                                                    state :           state,
-                                                    zip :             zip,
-                                                    phonenumber :     phonenumber,
-                                                    userid :          userid
-                                                  })
-      },
-
-      getDetail : () => {
-        return axios.get('api/textDetail')
+    // app.post("/api/addlocation", function(req, res) {     
+    addLocation : (newLocation) => {
+      return axios.post(`api/addlocation`, newLocation)
       }
   }
 

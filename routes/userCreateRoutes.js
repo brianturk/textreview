@@ -32,14 +32,14 @@ module.exports = app => {
         });
 
 
+
         // ROUTE FOR ADDING A LOCATION TO LOCATION COLLECTION AND ADDING ITS LINK TO USER
         // -----------------------------------------------------------------------------------------
-        app.post("/api/addlocation/:id", function(req, res) {            
-            req.body.userid = req.params.id;   // Add the userid to the location record per Matt's request
+        app.post("/api/addlocation", function(req, res) {       
 
             db.Location.create(req.body)
             .then(function(dbLocation) {
-                return db.User.findOneAndUpdate({ _id: req.params.id }, {$push: { locations: dbLocation._id }}, { new: true });
+                return db.User.findOneAndUpdate({ _id: req.body.userid }, {$push: { locations: dbLocation._id }}, { new: true });
             })
             .then(function(dbUser) {
                 res.json(dbUser);
@@ -55,7 +55,7 @@ module.exports = app => {
         // -----------------------------------------------------------------------------------------
         app.get("/api/user/:id", function(req, res) {
             db.User.findOne({ _id: req.params.id })
-            .populate("location")
+            .populate("locations")
             .then(function(dbUser) {
                 res.json(dbUser);
             })
