@@ -138,7 +138,7 @@ module.exports = app => {
             item.userid = id;
             db.Location.findOne({
               locationName: item.locationName,
-              userId: id
+              userid: id
             })
               .then(async data => {
                 if (!data) { ///not found create
@@ -190,7 +190,7 @@ module.exports = app => {
 
 
                   var text = {
-                    customerNumber: customer,
+                    customerPhonenumber: customer,
                     locationPhonenumber: location.phonenumber,
                     messages: [{
                       textBody: rating,
@@ -204,10 +204,11 @@ module.exports = app => {
                     reviewValid: true,
                     rating: rating,
                     userComment: comment,
-                    client_id: id,
+                    userid: id,
                     createdAt: firstTime.format()
                   }
 
+                  // console.log(data);
                   data = await createText(text)
 
                 }
