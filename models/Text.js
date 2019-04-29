@@ -58,7 +58,7 @@ const TextSchema = new Schema({
         required: false,
     },
     //The ID of the client this review is for.
-    userId:
+    userid:
         {
           type: Schema.Types.ObjectId
         },
