@@ -5,31 +5,47 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import AuthService from './../components/AuthService';
+import withAuth from './../components/withAuth';
 import API from './../utils/API';
+import Location from './../utils/Location';
 
 class AddLocation extends Component {
+
+    state = {
+        locationName:   "",
+        street:         "",
+        city:           "",
+        state:          "",
+        zip:            "",
+        phonenumber:    "",
+        userid:         ""
+      };
+    
+
   constructor() {
     super();
     this.Auth = new AuthService();
   }
 
-//   componentWillMount() {
-//     if (this.Auth.loggedIn()) {
-//       this.props.history.replace('/');
-//     }
-//   }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.addLocation(this.username, 
-                    this.address, 
-                    this.city, 
-                    this.state, 
-                    this.zip)
+
+     // addLocation : (locationName, street, city, state, zip, phonenumber, userid) 
+    var newLocation = new Location({    
+                                "locationName"  :       this.state.locationName, 
+                                "street"        :       this.state.street, 
+                                "city"          :       this.state.city, 
+                                "state"         :       this.state.state, 
+                                "zip"           :       this.state.zip,
+                                "phonenumber"   :       this.state.phonenumber,
+                                "userid"        :       this.props.user.id
+                            });
+
+    API.addLocation(newLocation)
       .then(res => {
-        // once the user has added a location
-        // send them to the home page
-        this.props.history.replace('/');
+        // once the user has added a location send them to the profile page
+        this.props.history.replace('/profile');
       })
       .catch(err => alert(err));
   };
@@ -48,12 +64,21 @@ class AddLocation extends Component {
         <h1>Add Location</h1>
         <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
-            <label htmlFor="locationname">Location Name:</label>
+            <label htmlFor="locationName">Location Name:</label>
             <input className="form-control"
                    placeholder="Location name goes here..."
-                   name="locationname"
+                   name="locationName"
                    type="text"
-                   id="locationname"
+                   id="locationName"
+                   onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="phonenumber">Phone number:</label>
+            <input className="form-control"
+                   placeholder="Texting phone number of location goes here..."
+                   name="phonenumber"
+                   type="text"
+                   id="phonenumber"
                    onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -101,4 +126,4 @@ class AddLocation extends Component {
   }
 }
 
-export default AddLocation;
+export default withAuth(AddLocation);
