@@ -27,6 +27,16 @@ module.exports = app => {
     }).catch(err => res.status(400).send(err));
   });
 
+  // Any route with isAuthenticated is protected and you need a valid token
+  // to access
+  app.get('/api/textDetail/', isAuthenticated, (req, res) => {
+   
+    db.Text.find({})
+    .then(data => {
+        res.json(data);
+    }).catch(err => res.status(400).send(err));
+  });
+
 
   //just used to create dummy data for the demonstration
   app.post('/api/createdata/', (req, res) => {
@@ -128,7 +138,7 @@ module.exports = app => {
             item.userid = id;
             db.Location.findOne({
               locationName: item.locationName,
-              userid: id
+              userId: id
             })
               .then(async data => {
                 if (!data) { ///not found create
@@ -192,7 +202,8 @@ module.exports = app => {
                     }],
                     reviewComplete: true,
                     reviewValid: true,
-                    rating, rating,
+                    rating: rating,
+                    userComment: comment,
                     client_id: id,
                     createdAt: firstTime.format()
                   }

@@ -55,6 +55,10 @@ export default {
                                                     phonenumber :     phonenumber,
                                                     userid :          userid
                                                   })
+      },
+
+      getDetail : () => {
+        return axios.get('api/textDetail')
       }
   }
 
