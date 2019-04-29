@@ -119,7 +119,7 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
 // #############################
 
 const dashboardPanelChart = {
-  data: canvas => {
+  data: (labels,dataArr) => canvas => {
     const ctx = canvas.getContext("2d");
     var chartColor = "#FFFFFF";
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -130,15 +130,7 @@ const dashboardPanelChart = {
     gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.14)");
 
     return {
-      labels: [
-        "MON",
-        "TUE",
-        "WED",
-        "THU",
-        "FRI",
-        "SAT",
-        "SUN"
-      ],
+      labels,
       datasets: [
         {
           label: "Data",
@@ -154,7 +146,7 @@ const dashboardPanelChart = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [50, 150, 100, 190, 130, 90, 150]
+          data: dataArr
         }
       ]
     };
@@ -274,7 +266,7 @@ const dashboardShippedProductsChart = {
 // #############################
 
 const dashboardAllProductsChart = {
-  data: canvas => {
+  data: (labels,dataArr) =>  canvas => {
     var ctx = canvas.getContext("2d");
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
     gradientStroke.addColorStop(0, "#18ce0f");
@@ -310,7 +302,7 @@ const dashboardAllProductsChart = {
 // #############################
 
 const dashboard24HoursPerformanceChart = {
-  data: canvas => {
+  data: (labels,dataArr) => canvas => {
     var ctx = canvas.getContext("2d");
     var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");

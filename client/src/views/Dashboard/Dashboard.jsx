@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
-// function that returns a color based on an interval of numbers
+import APIDash from './../../utils/APIDash';
 
 //import { PanelHeader, Stats, CardCategory, Tasks } from "react";
 import PanelHeader from './../../components/PanelHeader/PanelHeader.jsx';
@@ -32,7 +32,45 @@ import {
 
 import { tasks } from "../../variables/general.jsx";
 
+const labels = 
+["MON",
+"TUE",
+"WED",
+"THU",
+"FRI",
+"SAT",
+"SUN"];
+
+// const dataArr = [50, 150, 100, 190, 130, 90, 150];
+const dataArr = [1, 2, 3, 4, 5, 6, 107];
+const locations = [{id:1,name:"One"}, {id:2,name:"Two"}, {id:3,name:"Three"}];
+
 class Dashboard extends React.Component {
+  state = {
+    dataArr: [],
+    labels: [],
+    dataArrWeekly: [],
+    labelsWeekly: [],
+    dataArrInvalid: [],
+    labelsInvalid: []
+  }
+  componentDidMount() {
+    APIDash.getUserDashData("1","1").then(res => {
+      console.log(res);
+      this.setState({
+        dataArr: dataArr,
+        labels: labels
+      })
+    }).catch(error=>{
+      console.log(error);
+    });
+  }
+
+  compute7Days() {
+
+  }
+
+
   render() {
     return (
       <div>
@@ -40,14 +78,14 @@ class Dashboard extends React.Component {
           size="lg"
           content={
             <Line
-              data={dashboardPanelChart.data}
+              data={dashboardPanelChart.data(this.state.labels,this.state.dataArr)}
               options={dashboardPanelChart.options}
             />
           }
         />
         <div className="content">
           <Row>
-            <Col xs={12} md={4}>
+            {/* <Col xs={12} md={4}>
               <Card className="card-chart">
                 <CardHeader>
                   <CardCategory>Global Sales</CardCategory>
@@ -88,13 +126,13 @@ class Dashboard extends React.Component {
                   </Stats>
                 </CardFooter>
               </Card>
-            </Col>
-            <Col xs={12} md={4}>
+            </Col> */}
+            <Col xs={12} md={6}>
               <Card className="card-chart">
                 <CardHeader>
-                  <CardCategory>2018 Sales</CardCategory>
-                  <CardTitle tag="h4">All products</CardTitle>
-                  <UncontrolledDropdown>
+                  <CardCategory>Weekly</CardCategory>
+                  <CardTitle tag="h4">Summary</CardTitle>
+                  {/* <UncontrolledDropdown>
                     <DropdownToggle
                       className="btn-round btn-simple btn-icon"
                       color="default"
@@ -109,17 +147,17 @@ class Dashboard extends React.Component {
                         Remove data
                       </DropdownItem>
                     </DropdownMenu>
-                  </UncontrolledDropdown>
+                  </UncontrolledDropdown> */}
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={dashboardAllProductsChart.data}
+                      data={dashboardAllProductsChart.data(this.state.labelsWeekly,this.state.dataArrWeekly)}
                       options={dashboardAllProductsChart.options}
                     />
                   </div>
                 </CardBody>
-                <CardFooter>
+                {/* <CardFooter>
                   <Stats>
                     {[
                       {
@@ -128,28 +166,28 @@ class Dashboard extends React.Component {
                       }
                     ]}
                   </Stats>
-                </CardFooter>
+                </CardFooter> */}
               </Card>
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={6}>
               <Card className="card-chart">
                 <CardHeader>
-                  <CardCategory>Email Statistics</CardCategory>
-                  <CardTitle tag="h4">24 Hours Performance</CardTitle>
+                  <CardCategory>Incomplete/Invalid</CardCategory>
+                  <CardTitle tag="h4">7 Days Summary</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
                     <Bar
-                      data={dashboard24HoursPerformanceChart.data}
+                      data={dashboard24HoursPerformanceChart.data(this.state.labelsInvalid,this.state.dataArrInvalid)}
                       options={dashboard24HoursPerformanceChart.options}
                     />
                   </div>
                 </CardBody>
-                <CardFooter>
+                {/* <CardFooter>
                   <Stats>
                     {[{ i: "now-ui-icons ui-2_time-alarm", t: "Last 7 days" }]}
                   </Stats>
-                </CardFooter>
+                </CardFooter> */}
               </Card>
             </Col>
           </Row>

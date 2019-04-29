@@ -7,12 +7,14 @@ var dashRoutes = [
     path: "/dashboard",
     name: "Summary",
     icon: "design_app",
+    header: "7 Days Summary",
     component: Dashboard
   },
   {
     path: "/extended-tables",
     name: "Detailed",
     icon: "files_paper",
+    header: "Detailed",
     component: TableList
   },
   // {
