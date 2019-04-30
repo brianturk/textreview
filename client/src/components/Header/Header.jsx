@@ -48,7 +48,6 @@ class Header extends React.Component {
     });
   }
   dropdownToggle(e) {
-    console.log(e)
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
