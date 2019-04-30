@@ -32,9 +32,7 @@ function LocationList(props) {
                                 <td>{loc.state}</td>
                                 <td>{loc.zip}</td>
                                 <td className="text-right">
-                                    <CustomButton className="btn-icon" color="info" size="sm">
-                                        <i className="fa fa-user"></i>
-                                    </CustomButton>{` `}
+
                                     <CustomButton className="btn-icon" color="success" size="sm">
                                         <i className="fa fa-edit"></i>
                                     </CustomButton>{` `}

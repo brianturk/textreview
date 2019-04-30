@@ -6,6 +6,7 @@ const isAuthenticated = require("../config/isAuthenticated");
 const auth = require("../config/auth");
 
 
+
 module.exports = app => {
 
 
@@ -64,3 +65,6 @@ module.exports = app => {
             });
         });
 } 
+
+
+
