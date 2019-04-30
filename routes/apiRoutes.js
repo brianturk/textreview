@@ -27,11 +27,13 @@ module.exports = app => {
     }).catch(err => res.status(400).send(err));
   });
 
-  // Any route with isAuthenticated is protected and you need a valid token
+ // Any route with isAuthenticated is protected and you need a valid token
   // to access
-  app.get('/api/textDetail/', isAuthenticated, (req, res) => {
-   
-    db.Text.find({})
+  // app.get('/api/textDetail/', isAuthenticated, (req, res) => {
+    app.get('/api/textDetail/', (req, res) => {
+
+      db.Text.find({})
+    // db.Text.find({_id: req.user.id})
     .then(data => {
         res.json(data);
     }).catch(err => res.status(400).send(err));
@@ -125,9 +127,7 @@ module.exports = app => {
             "Poorly done.  The food was served slowly and tasted terrible"
           ]
 
-          var firstDay = moment().subtract(31, 'days')
-          var lastDay = moment().subtract(1, 'days')
-          var daysBetween = lastDay.diff(firstDay, 'days')
+         
 
 
 
@@ -171,6 +171,10 @@ module.exports = app => {
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
                   var rating = Math.floor(Math.random() * 10) + 1
+
+                  var firstDay = moment().subtract(31, 'days')
+                  var lastDay = moment().subtract(1, 'days')
+                  var daysBetween = lastDay.diff(firstDay, 'days')
 
                   var randomDay = Math.floor(Math.random() * daysBetween) + 1
                   var firstTime = firstDay.add(randomDay, 'days')
@@ -236,7 +240,11 @@ module.exports = app => {
   function createLocation(item) {
     return new Promise(async function (resolve, reject) {
       db.Location.create(item)
-        .then(data => resolve(data))
+        .then(data => {
+          db.User.findOneAndUpdate({_id: item.userid}, {"$push":{locations: data._id}}, { new: true })
+            .then(data => resolve(data))
+            .catch(err => resolve(err))
+        })
         .catch(err => resolve(err))
     })
   }
