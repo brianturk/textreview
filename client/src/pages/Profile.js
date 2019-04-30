@@ -23,7 +23,9 @@ class Profile extends Component {
         locations:  res.data.locations
       })
     });
+
   }
+
 
   // TODO: 
   // Called by editable user name to update state in Profile
@@ -45,22 +47,23 @@ class Profile extends Component {
     return (
       <div className="container Profile">
         <h3>Profile page</h3>
-
-        <p>Username:</p>
-            <EditableUserName value={this.state.username} id="username" />
-
-        <p>Email:</p>
-            <EditableEmail value={this.state.email} id="email"/>
-
-        <div>
-          <h3> Locations : </h3>
-          <LocationList 
-            locations={this.state.locations}
-          />
-        </div>
-        <Link to="/addlocation">Add a location</Link>
-        <Link to="/importlocations">Import locations</Link>
-        <Link to="/">Go home</Link>
+          <div className = "row">
+            <p>Username:</p> <EditableUserName value={this.state.username} id="username" />
+          </div>
+          <div className = "row">
+          <p>Email address:</p> <EditableEmail value={this.state.email} id="email"/>
+          </div>
+        
+          <div>        
+            <div>
+              <LocationList 
+                locations={this.state.locations}
+              />
+            </div>
+            <Link to="/addlocation">Add a location</Link>
+            <Link to="/importlocations">Import locations</Link>
+            <Link to="/">Go home</Link>
+          </div>
       </div>
     )
   }

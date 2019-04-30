@@ -1,58 +1,112 @@
 // Location List component shows all location for a given user
 // in a list and shows edit and delete buttons for each one
 
-import React from 'react';
-import CustomButton from '../CustomButton/CustomButton.jsx';
 
-function LocationList(props) {
+import React, { Component } from "react";
+// import CustomButton from '../CustomButton/CustomButton.jsx';
+// Load ReactTable
+import ReactTable from 'react-table';
+
+import 'react-table/react-table.css';
+import { checkPropTypes } from 'prop-types';
+
+
+    
+class LocationList extends Component {
+    
+      state = {
+        columns: [{
+          Header: 'Location Name',
+          accessor: 'locationName',
+          maxWidth: 250,
+          style: { textAlign: 'left' },
+          headerStyle: { textAlign: 'left' }
+    
+        },
+        {
+          Header: 'Phone Number',
+          accessor: 'phonenumber',
+          Cell: row => <span>{this.formatPhoneNumber(row.value)}</span>,
+          maxWidth: 120,
+          style: { textAlign: 'left' },
+          headerStyle: { textAlign: 'left' }
+    
+        },
+        {
+          Header: 'Street',
+          accessor: 'street',
+          maxWidth: 360,
+          style: { textAlign: 'left' },
+          headerStyle: { textAlign: 'left' },
+        },
+        {
+          Header: 'City',
+          accessor: 'city',
+          maxWidth: 300,
+          style: { textAlign: 'left' },
+          headerStyle: { textAlign: 'left' }
+        },
+        {
+          Header: 'State',
+          accessor: 'state',
+          style: { textAlign: 'left' },
+          headerStyle: { textAlign: 'left' },
+          maxWidth: 60,
+        },
+        {
+          Header: 'Zip',
+          accessor: 'zip',
+          style: { textAlign: 'left' },
+          headerStyle: { textAlign: 'left' },
+          maxWidth: 120,
+        }
+    
+        ]
+        ,
+        data: [],
+        loadingText: false
+      }
+    
+
+
+      formatPhoneNumber(phoneNumberString) {
+        var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+        var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
+        if (match) {
+          var intlCode = (match[1] ? '+1 ' : '')
+          return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('')
+        }
+        return null
+      }
+    
+    
+/*         ${JSON.stringify(this.state.data)}`); */
+    
+    
+      render() {
 
         return (
+          <ReactTable
+            data={this.props.locations}
+            columns={this.state.columns}
+            sortable={true}
+            multiSort={true}
+            resizable={true}
 
-          <div className="jumbotron">
-
-             <table className="table">
-                    <thead>
-                        <tr>
-                            <th className="text-left">Location name</th>
-                            <th className="text-left">Phone number</th>
-                            <th className="text-left">Street</th>
-                            <th className="text-left">City</th>
-                            <th className="text-left">State</th>
-                            <th className="text-left">Zip</th>
-                            <th className="text-right">Actions</th>
-                          </tr>
-                    </thead>
-                    <tbody>
-                        {props.locations.map(loc => (
-                            <tr key={loc.locationName}>
-                                <td>{loc.locationName}</td>
-                                <td>{loc.phonenumber}</td>
-                                <td>{loc.street}</td>
-                                <td>{loc.city}</td>
-                                <td>{loc.state}</td>
-                                <td>{loc.zip}</td>
-                                <td className="text-right">
-
-                                    <CustomButton className="btn-icon" color="success" size="sm">
-                                        <i className="fa fa-edit"></i>
-                                    </CustomButton>{` `}
-                                    <CustomButton className="btn-icon" color="danger" size="sm">
-                                        <i className="fa fa-times" />
-                                    </CustomButton>
-                                </td>
-
-
-                                {/* <td><button id={loc.userid}>Edit</button></td>
-                                <td><button id={loc.userid}>Del</button></td> */}
-                            </tr>
-                        ))}
-                    </tbody>
-              </table>
-          </div>
-        );
-}
-
-
-export default LocationList;
-
-
+            loading={this.state.loading}
+            loadingText={'Loading...'}
+            noDataText={'No rows found'}
+            defaultSorted={[
+              {
+                id: "locationName",
+                desc: true
+              }]}
+            defaultPageSize={10}
+            className="-striped -highlight"
+          />
+        )
+      }
+    }
+    
+    export default LocationList;
+    
