@@ -5,10 +5,32 @@ const client = require('twilio')(accountSid, authToken);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const http = require('http');
 const db = require("../models");
-
+const updateResponses = require("./customerResponses");
 
 module.exports = app => {
 
+    //establish customerResponses array on server start.
+    let customerResponses = [];
+    updateResponses()
+        .then(responses => {
+            customerResponses = responses;
+        })
+        .catch(err => console.log(err));
+
+
+    //Update the customer response array. This should get called when a user makes change to their responses on their profile page.
+    //This should ultimately be updated to accept a user ID so that it doesn't force us to go through the entire user database.
+    app.get("/api/twilio/updateCustomerResponses", (req, res) => {
+        updateResponses()
+            .then(responses => {
+                customerResponses = responses;
+                res.json("Customer Responses Updated!");
+            })
+            .catch(err => {
+                console.log(err);
+                res.json(err);
+            });
+    });
 
     app.get("/api/twilio/sendTestMessage", (req, res) => {
         client.messages
@@ -109,6 +131,7 @@ module.exports = app => {
             })
 
     });
+
 
 
 }
