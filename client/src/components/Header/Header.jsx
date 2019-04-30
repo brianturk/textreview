@@ -108,58 +108,60 @@ class Header extends React.Component {
   }
   render() {
     return (
+      //Removed this because it got in the way of the page - BMT
+      <span></span>
       // add or remove classes depending if we are on full-screen-maps page or not
-      <Navbar
-        color={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
-            ? "white"
-            : this.state.color
-        }
-        expand="lg"
-        className={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
-            ? "navbar-absolute fixed-top"
-            : "navbar-absolute fixed-top " +
-            (this.state.color === "transparent" ? "navbar-transparent " : "")
-        }
-      >
-        <Container fluid>
-          <div className="navbar-wrapper">
-            <div className="navbar-toggle">
-              <button
-                type="button"
-                ref="sidebarToggle"
-                className="navbar-toggler"
-                onClick={() => this.openSidebar()}
-              >
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
-              </button>
-            </div>
-            <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
-          </div>
-          <NavbarToggler onClick={this.toggle}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler>
-          <Collapse
-            isOpen={this.state.isOpen}
-            navbar
-            className="justify-content-end"
-          >
-            <Nav navbar>
-              <NavItem>
-                <i className="now-ui-icons media-1_button-power" alt="Logout" onClick={() => this.Auth.logout()} />
-                <p>
-                  <span className="d-lg-none d-md-block">Logout</span>
-                </p>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
+      // <Navbar
+      //   color={
+      //     this.props.location.pathname.indexOf("full-screen-maps") !== -1
+      //       ? "white"
+      //       : this.state.color
+      //   }
+      //   expand="lg"
+      //   className={
+      //     this.props.location.pathname.indexOf("full-screen-maps") !== -1
+      //       ? "navbar-absolute fixed-top"
+      //       : "navbar-absolute fixed-top " +
+      //       (this.state.color === "transparent" ? "navbar-transparent " : "")
+      //   }
+      // >
+      //   <Container fluid>
+      //     <div className="navbar-wrapper">
+      //       <div className="navbar-toggle">
+      //         <button
+      //           type="button"
+      //           ref="sidebarToggle"
+      //           className="navbar-toggler"
+      //           onClick={() => this.openSidebar()}
+      //         >
+      //           <span className="navbar-toggler-bar bar1" />
+      //           <span className="navbar-toggler-bar bar2" />
+      //           <span className="navbar-toggler-bar bar3" />
+      //         </button>
+      //       </div>
+      //       <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
+      //     </div>
+      //     <NavbarToggler onClick={this.toggle}>
+      //       <span className="navbar-toggler-bar navbar-kebab" />
+      //       <span className="navbar-toggler-bar navbar-kebab" />
+      //       <span className="navbar-toggler-bar navbar-kebab" />
+      //     </NavbarToggler>
+      //     <Collapse
+      //       isOpen={this.state.isOpen}
+      //       navbar
+      //       className="justify-content-end"
+      //     >
+      //       <Nav navbar>
+      //         <NavItem>
+      //           <i className="now-ui-icons media-1_button-power" alt="Logout" onClick={() => this.Auth.logout()} />
+      //           <p>
+      //             <span className="d-lg-none d-md-block">Logout</span>
+      //           </p>
+      //         </NavItem>
+      //       </Nav>
+      //     </Collapse>
+      //   </Container>
+      // </Navbar>
     );
   }
 }
