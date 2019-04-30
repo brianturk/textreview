@@ -17,15 +17,15 @@ module.exports = app => {
 
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
-  app.get('/api/user/:id', isAuthenticated, (req, res) => {
-    db.User.findById(req.params.id).then(data => {
-      if (data) {
-        res.json(data);
-      } else {
-        res.status(404).send({ success: false, message: 'No user found' });
-      }
-    }).catch(err => res.status(400).send(err));
-  });
+  // app.get('/api/user/:id', isAuthenticated, (req, res) => {
+  //   db.User.findById(req.params.id).then(data => {
+  //     if (data) {
+  //       res.json(data);
+  //     } else {
+  //       res.status(404).send({ success: false, message: 'No user found' });
+  //     }
+  //   }).catch(err => res.status(400).send(err));
+  // });
 
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
@@ -125,9 +125,7 @@ module.exports = app => {
             "Poorly done.  The food was served slowly and tasted terrible"
           ]
 
-          var firstDay = moment().subtract(31, 'days')
-          var lastDay = moment().subtract(1, 'days')
-          var daysBetween = lastDay.diff(firstDay, 'days')
+          
 
 
 
@@ -171,6 +169,10 @@ module.exports = app => {
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
                   var rating = Math.floor(Math.random() * 10) + 1
+
+                  var firstDay = moment().subtract(31, 'days')
+          var lastDay = moment().subtract(1, 'days')
+          var daysBetween = lastDay.diff(firstDay, 'days')
 
                   var randomDay = Math.floor(Math.random() * daysBetween) + 1
                   var firstTime = firstDay.add(randomDay, 'days')

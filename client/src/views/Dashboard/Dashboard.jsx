@@ -16,6 +16,7 @@ import {
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 import APIDash from './../../utils/APIDash';
+import API from './../../utils/API';
 
 //import { PanelHeader, Stats, CardCategory, Tasks } from "react";
 import PanelHeader from './../../components/PanelHeader/PanelHeader.jsx';
@@ -31,6 +32,7 @@ import {
 } from "../../variables/charts.jsx";
 
 import { tasks } from "../../variables/general.jsx";
+import moment from "moment";
 
 const labels = 
 ["MON",
@@ -52,15 +54,39 @@ class Dashboard extends React.Component {
     dataArrWeekly: [],
     labelsWeekly: [],
     dataArrInvalid: [],
-    labelsInvalid: []
+    labelsInvalid: [],
+    locationId: 0
   }
   componentDidMount() {
-    APIDash.getUserDashData("1","1").then(res => {
-      console.log(res);
+    //console.log(this.props.user);
+    APIDash.getUserDashData(this.props.user.id,this.state.locationId).then(res => {
+      //console.log(res.data);
+      let newData = [];
+      let newLabel = [];
+      res.data.forEach(item=>{
+        newData.push(item.aveRating);
+        newLabel.push(moment(`${item._id.month}-${item._id.day}-${item._id.year}`).format("ddd"));
+      });
       this.setState({
-        dataArr: dataArr,
-        labels: labels
+        dataArr: newData,
+        labels: newLabel
       })
+    }).catch(error=>{
+      console.log(error);
+    });
+
+    API.getLocations(this.props.user.id).then(res => {
+      console.log(res.data);
+      // let newData = [];
+      // let newLabel = [];
+      // res.data.forEach(item=>{
+      //   newData.push(item.aveRating);
+      //   newLabel.push(moment(`${item._id.month}-${item._id.day}-${item._id.year}`).format("ddd"));
+      // });
+      // this.setState({
+      //   dataArr: newData,
+      //   labels: newLabel
+      // })
     }).catch(error=>{
       console.log(error);
     });

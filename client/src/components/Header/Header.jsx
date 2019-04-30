@@ -48,6 +48,7 @@ class Header extends React.Component {
     });
   }
   dropdownToggle(e) {
+    console.log(e)
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
@@ -150,12 +151,30 @@ class Header extends React.Component {
             className="justify-content-end"
           >
             <Nav navbar>
-              <NavItem>
+            <Dropdown
+                nav
+                isOpen={this.state.dropdownOpen}
+                toggle={e => this.dropdownToggle(e)}
+              >
+                <DropdownToggle caret nav>
+                  {/* <i className="now-ui-icons location_world" /> */}
+                  Location ID
+                  <p>
+                    <span className="d-lg-none d-md-block">Location ID</span>
+                  </p>
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem tag="a" onClick={this.Auth.select}>Action</DropdownItem>
+                  <DropdownItem tag="a" onClick={this.Auth.select}>Another Action</DropdownItem>
+                  <DropdownItem tag="a" onClick={this.Auth.select}>Something else here</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              {/* <NavItem>
                 <i className="now-ui-icons media-1_button-power" alt="Logout" onClick={() => this.Auth.logout()} />
                 <p>
                   <span className="d-lg-none d-md-block">Logout</span>
                 </p>
-              </NavItem>
+              </NavItem> */}
             </Nav>
           </Collapse>
         </Container>

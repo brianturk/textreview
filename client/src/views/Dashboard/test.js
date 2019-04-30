@@ -15,7 +15,8 @@ const sevenDays = moment().subtract(7, "d");
 db.Text.find({
     createdAt: {
     '$lte': today,
-    '$gte': sevenDays
+    '$gte': sevenDays,
+    '$group': '$createdAt'
     },
     reviewComplete:true,
     reviewValid:true}).then(data => {
