@@ -13,7 +13,6 @@ class Profile extends Component {
     username: "",
     email: "",
     locations: [],
-    twilioResponses: "",
     surResValid: "",
     surResInvalid: "",
     comResValid: "",
