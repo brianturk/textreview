@@ -10,7 +10,7 @@ import dashboardRoutes from "./../../routes/dashboard.jsx";
 import withAuth from './../../components/withAuth';
 
 import Sidebar from './../../components/Sidebar/Sidebar.jsx';
-import Header from './../../components/Header/Header.jsx';
+// import Header from './../../components/Header/Header.jsx';
 import Footer from './../../components/Footer/Footer.jsx';
 
 var ps;
@@ -39,7 +39,7 @@ class Dashboard extends Component {
       <div className="wrapper">
         <Sidebar {...this.props} routes={dashboardRoutes} />
         <div className="main-panel" ref="mainPanel">
-          <Header {...this.props} />
+          {/* <Header {...this.props} /> */}
           <Switch>
             {dashboardRoutes.map((prop, key) => {
               if (prop.collapse) {
