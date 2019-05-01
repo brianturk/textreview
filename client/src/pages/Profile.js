@@ -47,21 +47,22 @@ class Profile extends Component {
     return (
       <div className="container Profile">
         <h3>Profile page</h3>
+
           <div className = "row">
             <p>Username:</p> <EditableUserName value={this.state.username} id="username" />
           </div>
           <div className = "row">
           <p>Email address:</p> <EditableEmail value={this.state.email} id="email"/>
           </div>
-        
+
           <div>        
             <div>
               <LocationList 
                 locations={this.state.locations}
               />
             </div>
-            <Link to="/addlocation">Add a location</Link>
-            <Link to="/importlocations">Import locations</Link>
+            <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Link to="/importlocations">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
             <Link to="/">Go home</Link>
           </div>
       </div>

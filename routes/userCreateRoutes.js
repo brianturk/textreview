@@ -24,12 +24,8 @@ module.exports = app => {
         // -----------------------------------------------------------------------------------------
         app.get("/api/users", function(req, res) {
             db.User.find({})
-            .then(function(dbUsers) {
-                res.json(dbUsers);
-            })
-            .catch(function(err) {
-                res.json(err);
-            });
+            .then(dbUser => res.json(dbUser))
+            .catch(err => res.json(err));
         });
 
 
@@ -42,12 +38,8 @@ module.exports = app => {
             .then(function(dbLocation) {
                 return db.User.findOneAndUpdate({ _id: req.body.userid }, {$push: { locations: dbLocation._id }}, { new: true });
             })
-            .then(function(dbUser) {
-                res.json(dbUser);
-            })
-            .catch(function(err) {
-                res.json(err);
-            });
+            .then(dbUser => res.json(dbUser))
+            .catch(err => res.json(err));
         });
 
 
@@ -57,13 +49,34 @@ module.exports = app => {
         app.get("/api/user/:id", function(req, res) {
             db.User.findOne({ _id: req.params.id })
             .populate("locations")
-            .then(function(dbUser) {
-                res.json(dbUser);
-            })
-            .catch(function(err) {
-                res.json(err);
-            });
+            .then(dbUser => res.json(dbUser))
+            .catch(err => res.json(err));
         });
+
+
+
+        // ROUTE FOR GETTING A USER WITHOUT LOCATIONS
+        // -----------------------------------------------------------------------------------------
+        app.get("/api/userlite/:id", function(req, res) {
+            db.User.findOne({ _id: req.params.id })
+            .then(dbUser => res.json(dbUser))
+            .catch(err => res.json(err));
+        });
+
+
+        
+        // ROUTE FOR DELETING A LOCATION
+        // -----------------------------------------------------------------------------------------
+        // TODO: extend to remove ID from user.locations array
+        app.delete("/api/deletelocation/:id", (req, res) => {   
+            console.log(`DELETE ${req.params.id}`);
+            db.Location.findOneAndRemove({ _id: req.params.id })
+            .then(dbUser => {console.log(dbUser); res.json(dbUser); })
+            .catch(err => res.json(err));           
+        });
+
+
+
 } 
 
 

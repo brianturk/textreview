@@ -32,7 +32,7 @@ function contentEditable(WrappedComponent, parent, validationFunction) {
           editing: false
         }, () => {
            //  if (this.props.onSave && this.isValueChanged()) {
-            console.log('Value is changed', this.domElm.textContent);
+            // console.log('Value is changed', this.domElm.textContent);
             //console.log(this);
             // how do I call the validation function in the parent?
             validationFunction(parent, this.domElm.textContent);
@@ -73,7 +73,7 @@ function contentEditable(WrappedComponent, parent, validationFunction) {
         if (this.props.editOnClick !== undefined) {
           editOnClick = this.props.editOnClick;
         }
-        console.log(this.props);
+        //console.log(this.props);
         return (
           <WrappedComponent
             className={editing ? 'editing' : ''}
