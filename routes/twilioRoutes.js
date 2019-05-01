@@ -25,7 +25,6 @@ module.exports = app => {
             .then(responses => {
                 customerResponses = responses;
                 res.json("Customer Responses Updated!");
-                console.log(customerResponses);
             })
             .catch(err => {
                 console.log(err);
