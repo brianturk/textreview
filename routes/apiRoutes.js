@@ -38,6 +38,19 @@ module.exports = app => {
     }).catch(err => res.status(400).send(err));
   });
 
+  app.post("/api/twilio/updateResponses", isAuthenticated, (req, res) => {
+    db.User.findOneAndUpdate({_id: req.user.id}, {
+      twilioResponses: {
+        surResValid: req.body.surResValid,
+        surResInvalid: req.body.surResInvalid,
+        comResValid: req.body.comResValid,
+        comResInvalid: req.body.comResInvalid
+      }
+    })
+      .then(dbUser => res.json("Responses Updated!"))
+      .catch(err => res.json(err))
+  })
+
   //just used to create dummy data for the demonstration
   app.post('/api/createdata/', (req, res) => {
 
@@ -164,7 +177,7 @@ module.exports = app => {
 
                 var location = item
                 var x = 0;
-                for (x = 0; x < 1000; x++) {
+                for (x = 0; x < 200; x++) {
                   //pick random location
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
