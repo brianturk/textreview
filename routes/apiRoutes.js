@@ -2,6 +2,7 @@ const db = require("../models");
 const isAuthenticated = require("../config/isAuthenticated");
 const auth = require("../config/auth");
 const moment = require("moment");
+const ObjectId = require('mongoose').Types.ObjectId
 
 
 // LOGIN ROUTE
@@ -14,7 +15,7 @@ module.exports = app => {
       .catch(err => res.status(400).json(err));
   });
 
-
+//I deleted because it is in userCreateRoutes.js - bmt
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
   // app.get('/api/user/:id', isAuthenticated, (req, res) => {
@@ -29,16 +30,13 @@ module.exports = app => {
 
  // Any route with isAuthenticated is protected and you need a valid token
   // to access
-  // app.get('/api/textDetail/', isAuthenticated, (req, res) => {
-    app.get('/api/textDetail/', (req, res) => {
-
-      db.Text.find({})
-    // db.Text.find({_id: req.user.id})
+  app.get('/api/textDetail/', isAuthenticated, (req, res) => {
+    db.Text.find({userid: req.user.id})
     .then(data => {
+        // console.log(data)
         res.json(data);
     }).catch(err => res.status(400).send(err));
   });
-
 
   //just used to create dummy data for the demonstration
   app.post('/api/createdata/', (req, res) => {
@@ -65,7 +63,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '8585552323'
+          phonenumber: '8585552821'
         },
         {
           locationName: 'Atlantic',
@@ -89,7 +87,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '8585552323'
+          phonenumber: '8585557923'
         }
       ]
 
