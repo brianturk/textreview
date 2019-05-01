@@ -33,34 +33,32 @@ module.exports = app => {
             });
     });
 
-    app.get("/api/twilio/sendTestMessage", (req, res) => {
-        client.messages
-            .create({
-                body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-                from: '+16193044042',
-                to: '+13165126503'
-            })
-            .then(message => {
-                res.json(message);
-            })
-            .catch(err => res.json(err));
-    })
-
+    // app.get("/api/twilio/sendTestMessage", (req, res) => {
+    //     client.messages
+    //         .create({
+    //             body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+    //             from: '+16193044042',
+    //             to: '+13165126503'
+    //         })
+    //         .then(message => {
+    //             res.json(message);
+    //         })
+    //         .catch(err => res.json(err));
+    // })
 
     app.post("/api/twilio/sms", (req, res) => {
         //Check to see if an unfinished text exists with that incoming number.
         db.Text
             .find({ customerPhonenumber: req.body.From, reviewComplete: false })
             .then(dbText => {
-
-
-                //if it does, find what step we are at
+                //Pulls the relevant customer responses from the cached array.
                 if (dbText.length > 0) {
                     let currentCustomer = customerResponses.filter(response => {
                         if (String(dbText[0].userid) === String(response.id)) {
                             return true
                         } else return false
                     })
+                    //if it does, find what step we are at
                     //check if the message is just a number. If it is, respond back with a message prompting them for a review.
                     //could implement other checking on the message to ensure it's a valid review. I'm not sure how to do that yet, though.
                     if (isNaN(req.body.Body)) {
@@ -101,12 +99,13 @@ module.exports = app => {
                     db.Location
                         .findOne({ phonenumber: req.body.To })
                         .then(dbLocation => {
-                            //create new text in the database
+                            //Pulls the relevant customer responses from the cached array.
                             let currentCustomer = customerResponses.filter(response => {
                                 if (String(dbLocation.userid) === String(response.id)) {
                                     return true
                                 } else return false
                             })
+                            //create new text in the database
                             db.Text.create({
                                 customerPhonenumber: req.body.From,
                                 locationPhonenumber: req.body.To,
