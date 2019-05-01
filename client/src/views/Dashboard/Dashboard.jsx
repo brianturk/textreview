@@ -97,7 +97,7 @@ class Dashboard extends React.Component {
       let newLabel = [];
       res.data.forEach(item => {
         newData.push(item.aveRating);
-        newLabel.push(`${item._id.month}/${item._id.day}`+"("+moment(`${item._id.month}-${item._id.day}-${item._id.year}`).format("ddd")+")");
+        newLabel.push(moment(new Date(`${item._id.month}/${item._id.day}/${item._id.year}`)).format("ddd"));
       });
       this.setState({
         dataArr: newData,
