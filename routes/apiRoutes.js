@@ -164,7 +164,7 @@ module.exports = app => {
 
                 var location = item
                 var x = 0;
-                for (x = 0; x < 1000; x++) {
+                for (x = 0; x < 200; x++) {
                   //pick random location
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
