@@ -66,6 +66,8 @@ export default {
       surResInvalid: surResInvalid,
       comResValid: comResValid,
       comResInvalid: comResInvalid
+    }).then(response => {
+      axios.get("/api/twilio/updateCustomerResponses")
     })
   }
 }
