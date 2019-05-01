@@ -58,6 +58,15 @@ export default {
   //Get the texts for the detail page
   getDetail: () => {
     return axios.get('api/textDetail')
+  },
+
+  submitTwilioResponses: (surResValid, surResInvalid, comResValid, comResInvalid) => {
+    return axios.post("api/twilio/updateResponses", {
+      surResValid: surResValid,
+      surResInvalid: surResInvalid,
+      comResValid: comResValid,
+      comResInvalid: comResInvalid
+    })
   }
 }
 
