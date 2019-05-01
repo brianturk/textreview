@@ -20,7 +20,7 @@ class Profile extends Component {
        this.setState({
         username:   res.data.username,
         email:      res.data.email,
-        locations:  res.data.locations
+        // locations:  res.data.locations
       })
     });
 
@@ -58,11 +58,13 @@ class Profile extends Component {
           <div>        
             <div>
               <LocationList 
-                locations={this.state.locations}
+                userid={this.props.user.id}
+/*                 locations={this.state.locations} */
+                history={this.props.history}
               />
             </div>
             <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to="/importlocations">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
             <Link to="/">Go home</Link>
           </div>
       </div>

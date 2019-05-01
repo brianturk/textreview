@@ -4,7 +4,7 @@
 const db = require("../models");
 const isAuthenticated = require("../config/isAuthenticated");
 const auth = require("../config/auth");
-
+const locationSeedData = require("./../locationseed.json");
 
 
 module.exports = app => {
@@ -71,12 +71,41 @@ module.exports = app => {
         app.delete("/api/deletelocation/:id", (req, res) => {   
             console.log(`DELETE ${req.params.id}`);
             db.Location.findOneAndRemove({ _id: req.params.id })
-            .then(dbUser => {console.log(dbUser); res.json(dbUser); })
+            .then( (dbLocation) => {
+                return db.User.findOneAndUpdate({ _id: req.body.userid }, {$pull: { locations: dbLocation._id }}, { new: true });
+                })
+            .then( () => res.sendStatus(200)) 
             .catch(err => res.json(err));           
         });
 
 
 
+        // ROUTE FOR UPDATING A LOCATION 
+        // -----------------------------------------------------------------------------------------
+        app.post("/api/updatelocation", function(req, res) {       
+            db.Location.findOneAndUpdate({ _id: req.params.id }, {location: req.body} )
+            .then((dbLocation) => res.sendStatus(200))
+            .catch(err => res.json(err))
+        });
+
+
+        // ROUTE IMPORT LOCATION DATA FOR DEBUGGING
+        // -----------------------------------------------------------------------------------------
+        app.get("/api/importlocations", (req, res) => {   
+
+            res.sendStatus(404);
+            // console.log(locationSeedData);
+            // for (let i = 0; i < locationSeedData.length; i++) {
+            //     db.Location.create(locationSeedData[i])
+            //     .then()
+            // }
+            // db.Location.create(req.body)
+            // .then(function(dbLocation) {
+            //     return db.User.findOneAndUpdate({ _id: req.body.userid }, {$push: { locations: dbLocation._id }}, { new: true });
+            // })
+            // .then(dbUser => res.json(dbUser))
+            // .catch(err => res.json(err));
+        });
 } 
 
 

@@ -4,12 +4,12 @@
 
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import AuthService from './../components/AuthService';
-import withAuth from './../components/withAuth';
-import API from './../utils/API';
-import Location from './../utils/Location';
+import AuthService from '../components/AuthService';
+import withAuth from '../components/withAuth';
+import API from '../utils/API';
+import Location from '../utils/Location';
 
-class AddLocation extends Component {
+class EditLocation extends Component {
 
     state = {
         locationName:   "",
@@ -25,13 +25,21 @@ class AddLocation extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
+
+    console.log(this);
   }
 
+  componentDidMount () {
+    console.log("this.props.location.state");
+    console.log(this.props.location.state);
+    // this.setState(this.state.locationName, this.props.location.state.locationName);
+    //const  row  = this.props.location.state;
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
 
-     // addLocation : (locationName, street, city, state, zip, phonenumber, userid) 
+     // updateLocation : (locationName, street, city, state, zip, phonenumber, userid) 
     var newLocation = new Location({    
                                 "locationName"  :       this.state.locationName, 
                                 "street"        :       this.state.street, 
@@ -42,13 +50,15 @@ class AddLocation extends Component {
                                 "userid"        :       this.props.user.id
                             });
 
-    API.addLocation(newLocation)
+    API.updateLocation(newLocation)
       .then(res => {
-        // once the user has added a location send them to the profile page
+        // once the user has updated a location send them to the profile page
         this.props.history.replace('/profile');
       })
       .catch(err => alert(err));
   };
+
+
 
   handleChange = event => {
     const {name, value} = event.target;
@@ -57,16 +67,19 @@ class AddLocation extends Component {
     });
   };
 
+
+
   render() {
     return (
       <div className="container">
 
-        <h1>Add Location</h1>
+        <h1>Edit Location</h1>
         <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
             <label htmlFor="locationName">Location Name:</label>
             <input className="form-control"
-                   placeholder="Location name goes here..."
+                   placeholder={this.props.location.state.row.locationName}
+                   value={this.props.location.state.row.locationName}
                    name="locationName"
                    type="text"
                    id="locationName"
@@ -76,6 +89,7 @@ class AddLocation extends Component {
             <label htmlFor="phonenumber">Phone number:</label>
             <input className="form-control"
                    placeholder="Texting phone number of location goes here..."
+                   value={this.props.location.state.row.phonenumber}
                    name="phonenumber"
                    type="text"
                    id="phonenumber"
@@ -85,6 +99,7 @@ class AddLocation extends Component {
             <label htmlFor="street">Street Address:</label>
             <input className="form-control"
                    placeholder="Street goes here..."
+                   value={this.props.location.state.row.street}
                    name="street"
                    type="text"
                    id="street"
@@ -94,6 +109,7 @@ class AddLocation extends Component {
             <label htmlFor="city">City:</label>
             <input className="form-control"
                    placeholder="City goes here..."
+                   value={this.props.location.state.row.city}
                    name="city"
                    type="text"
                    id="city"
@@ -103,6 +119,7 @@ class AddLocation extends Component {
             <label htmlFor="state">State:</label>
             <input className="form-control"
                    placeholder="State goes here..."
+                   value={this.props.location.state.row.state}
                    name="state"
                    type="text"
                    id="state"
@@ -112,6 +129,7 @@ class AddLocation extends Component {
             <label htmlFor="zip">Zip Code:</label>
             <input className="form-control"
                    placeholder="Zip code goes here..."
+                   value={this.props.location.state.row.zip}
                    name="zip"
                    type="text"
                    id="zip"
@@ -125,4 +143,4 @@ class AddLocation extends Component {
   }
 }
 
-export default withAuth(AddLocation);
+export default withAuth(EditLocation);

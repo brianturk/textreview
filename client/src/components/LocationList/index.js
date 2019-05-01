@@ -6,27 +6,40 @@
 import React, { Component } from "react";
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import { Link } from 'react-router-dom';
 // import { checkPropTypes } from 'prop-types';
 
 import API from './../../utils/API';
 
 // Load the cut symbol from react-icons
 import { MdClear, MdCreate } from 'react-icons/md';
+
 // import { set } from "mongoose";
- 
 
 
     
+  // SELF-CONTAINED COMPONENT FOR MANAGING LOCATION 
+  // ------------------------------------------------------------------------------------
 class LocationList extends Component {
     
+    // When the component mounts, load all books and save them to this.state.books
+    componentDidMount() {
+      this.loadLocations();
+    }
 
-  // constructor() {
-  //   super();
+    // LOAD LOCATIONS FROM ROUTE IN API 
+    // ------------------------------------------------------------------------------------
+    loadLocations = () => {
+        API.getLocations(this.props.userid)
+          .then(res => this.setState({ locations:  res.data.locations  }) )
+          .catch(err => console.log(err))
+      };
 
-  //   this.renderEditable = this.renderEditable.bind(this);
-  // }
 
-      state = {
+
+    // SET STATE 
+    // ------------------------------------------------------------------------------------
+    state = {
         columns: [{
           Header: 'Location Name',
           accessor: 'locationName',
@@ -78,9 +91,13 @@ class LocationList extends Component {
           maxWidth: 60,
           Cell: row => (
               <div>
-
-                 <span onClick={() => this.handleEdit(row.original)}><MdCreate /></span>    
-                 &nbsp;   &nbsp;&nbsp;&nbsp;
+                 <Link to={{
+                              pathname: '/editlocation',
+                              state: {
+                                row: row.original
+                              }
+                            }}><MdCreate /></Link>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
                  <span onClick={() => this.handleDelete(row.original)}><MdClear /></span>            
               </div>
           )
@@ -92,8 +109,17 @@ class LocationList extends Component {
         loadingText: false
       }
     
-    
-          
+      // <span onClick={() => this.handleEdit(row.original)}><MdCreate /></span> 
+      // <Link to="/editlocation/"{row.original._id}><MdCreate /></Link>
+      // <Link to={{
+      //   pathname: '/tylermcginnis',
+      //   state: {
+      //     fromNotifications: true
+      //   }
+      // }}>Tyler McGinnis</Link>   
+      
+      
+
       // EDIT A LOCATION 
       // ------------------------------------------------------------------------------------
       handleEdit = (row) => {
@@ -104,31 +130,16 @@ class LocationList extends Component {
       // DELETE A LOCATION 
       // ------------------------------------------------------------------------------------
       handleDelete = (row) => {
-
-        API.deleteLocation(row._id)
-        .then(res => {
-          // once the user has added a location send them to the profile page
-          // this.props.history.replace('/profile');
-          // this.props.history isn't in this this, but in the parent this.
-          // is there another way to redirect to reload the profile page?
-
-          // find the index in this.state.data that has the id we are deleting
-          // and remove it
-          //
-          var tempArray = this.state.data;
-          var index = tempArray.find("id", row._id);
-          console.log(`handleDelete index = ${index}`);
-          if (index !== -1) {
-            tempArray.splice(index, 1);  // remove the element at index
-            this.setState(this.state.data, this.tempArray);
-          }
-        })
+        API.deleteLocation(row)
+        .then(res => this.loadLocations())   // once the user has deleted a location reload the state
         .catch(err => alert(err));
       }
 
 
 
-      formatPhoneNumber(phoneNumberString) {
+      // FORMAT PHONE NUMBER 
+      // ------------------------------------------------------------------------------------
+     formatPhoneNumber(phoneNumberString) {
         var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
         var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
         if (match) {
@@ -140,11 +151,12 @@ class LocationList extends Component {
     
 
     
+      // RENDER 
+      // ------------------------------------------------------------------------------------      
       render() {
-
         return (
           <ReactTable
-            data={this.props.locations}
+            data={this.state.locations}
             columns={this.state.columns}
             sortable={true}
             multiSort={true}
