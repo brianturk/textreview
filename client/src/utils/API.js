@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Location from './../utils/Location';
+// import Location from './../utils/Location';
 
 export default {
 
@@ -42,6 +42,18 @@ export default {
   addLocation: (newLocation) => {
     return axios.post(`api/addlocation`, newLocation)
   },
+
+
+
+  // ROUTE FOR DELETING A LOCATION
+  // -----------------------------------------------------------------------------------------
+  // app.post("/api/deletelocation", function(req, res) {     
+    deleteLocation: (id) => {
+      return axios.delete(`api/deletelocation/${id}`);
+    },
+  
+  
+
 
   //Get the texts for the detail page
   getDetail: () => {
