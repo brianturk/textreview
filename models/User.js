@@ -52,7 +52,31 @@ const UserSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Location"
     }
-  ]
+  ],
+  //The responses to send to messages received by twilio.
+  //Survey Response Valid/Invalid and Comment Response Valid/Invalid
+  twilioResponses: {
+    surResValid: {
+      type: String,
+      maxlength: 160,
+      trim: true
+    },
+    surResInvalid: {
+      type: String,
+      maxlength: 160,
+      trim: true
+    },
+    comResValid: {
+      type: String,
+      maxlength: 160,
+      trim: true
+    },
+    comResInvalid: {
+      type: String,
+      maxlength: 160,
+      trim: true
+    }
+  }
 });
 
 // Execute before each user.save() call
