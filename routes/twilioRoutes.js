@@ -25,6 +25,7 @@ module.exports = app => {
             .then(responses => {
                 customerResponses = responses;
                 res.json("Customer Responses Updated!");
+                console.log(customerResponses);
             })
             .catch(err => {
                 console.log(err);
@@ -47,16 +48,19 @@ module.exports = app => {
 
 
     app.post("/api/twilio/sms", (req, res) => {
-        console.log("Incoming message body");
-        console.log(req.body);
         //Check to see if an unfinished text exists with that incoming number.
         db.Text
             .find({ customerPhonenumber: req.body.From, reviewComplete: false })
             .then(dbText => {
-                console.log("Response from initial database query");
-                console.log(dbText);
+
+
                 //if it does, find what step we are at
                 if (dbText.length > 0) {
+                    let currentCustomer = customerResponses.filter(response => {
+                        if (String(dbText[0].userid) === String(response.id)) {
+                            return true
+                        } else return false
+                    })
                     //check if the message is just a number. If it is, respond back with a message prompting them for a review.
                     //could implement other checking on the message to ensure it's a valid review. I'm not sure how to do that yet, though.
                     if (isNaN(req.body.Body)) {
@@ -71,7 +75,7 @@ module.exports = app => {
                             })
                             .then(updatedDbText => {
                                 const twiml = new MessagingResponse();
-                                twiml.message("Thank You for your additional comments!");
+                                twiml.message(currentCustomer[0].comResValid);
                                 res.writeHead(200, { 'Content-Type': 'text/xml' });
                                 res.end(twiml.toString());
                             })
@@ -84,7 +88,7 @@ module.exports = app => {
                             .findOneAndUpdate({ _id: dbText[0]._id }, { $push: { messages: { textBody: req.body.Body } } })
                             .then(updatedDbText => {
                                 const twiml = new MessagingResponse();
-                                twiml.message("Please respond with any additional comments you would like to add. Your last message didn't look like a comment...");
+                                twiml.message(currentCustomer[0].comResInvalid);
                                 res.writeHead(200, { 'Content-Type': 'text/xml' });
                                 res.end(twiml.toString());
                             })
@@ -98,6 +102,11 @@ module.exports = app => {
                         .findOne({ phonenumber: req.body.To })
                         .then(dbLocation => {
                             //create new text in the database
+                            let currentCustomer = customerResponses.filter(response => {
+                                if (String(dbLocation.userid) === String(response.id)) {
+                                    return true
+                                } else return false
+                            })
                             db.Text.create({
                                 customerPhonenumber: req.body.From,
                                 locationPhonenumber: req.body.To,
@@ -111,7 +120,7 @@ module.exports = app => {
                                 //If the 1-10 review was succesfully added to the database, send this.
                                 .then(newDbText => {
                                     const twiml = new MessagingResponse();
-                                    twiml.message("Thank You for your review! If you would like to leave an additional comment, respond to this message.");
+                                    twiml.message(currentCustomer[0].surResValid);
                                     res.writeHead(200, { 'Content-Type': 'text/xml' });
                                     res.end(twiml.toString());
                                 })
@@ -120,7 +129,7 @@ module.exports = app => {
                                 .catch(err => {
                                     console.log(err);
                                     const twiml = new MessagingResponse();
-                                    twiml.message("Please send a valid rating. Numbers 1 - 10 are accepted.");
+                                    twiml.message(currentCustomer[0].surResInvalid);
                                     res.writeHead(200, { 'Content-Type': 'text/xml' });
                                     res.end(twiml.toString());
                                 });
