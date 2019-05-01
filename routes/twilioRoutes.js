@@ -5,36 +5,60 @@ const client = require('twilio')(accountSid, authToken);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const http = require('http');
 const db = require("../models");
-
+const updateResponses = require("./customerResponses");
 
 module.exports = app => {
 
+    //establish customerResponses array on server start.
+    let customerResponses = [];
+    updateResponses()
+        .then(responses => {
+            customerResponses = responses;
+        })
+        .catch(err => console.log(err));
 
-    app.get("/api/twilio/sendTestMessage", (req, res) => {
-        client.messages
-            .create({
-                body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-                from: '+16193044042',
-                to: '+13165126503'
-            })
-            .then(message => {
-                res.json(message);
-            })
-            .catch(err => res.json(err));
-    })
 
+    //Update the customer response array. This should get called when a user makes change to their responses on their profile page.
+    //This should ultimately be updated to accept a user ID so that it doesn't force us to go through the entire user database.
+    app.get("/api/twilio/updateCustomerResponses", (req, res) => {
+        updateResponses()
+            .then(responses => {
+                customerResponses = responses;
+                res.json("Customer Responses Updated!");
+                console.log(customerResponses);
+            })
+            .catch(err => {
+                console.log(err);
+                res.json(err);
+            });
+    });
+
+    // app.get("/api/twilio/sendTestMessage", (req, res) => {
+    //     client.messages
+    //         .create({
+    //             body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+    //             from: '+16193044042',
+    //             to: '+13165126503'
+    //         })
+    //         .then(message => {
+    //             res.json(message);
+    //         })
+    //         .catch(err => res.json(err));
+    // })
 
     app.post("/api/twilio/sms", (req, res) => {
-        console.log("Incoming message body");
-        console.log(req.body);
         //Check to see if an unfinished text exists with that incoming number.
         db.Text
             .find({ customerPhonenumber: req.body.From, reviewComplete: false })
             .then(dbText => {
-                console.log("Response from initial database query");
-                console.log(dbText);
-                //if it does, find what step we are at
+                //Pulls the relevant customer responses from the cached array.
                 if (dbText.length > 0) {
+                    let currentCustomer = customerResponses.filter(response => {
+                        if (String(dbText[0].userid) === String(response.id)) {
+                            return true
+                        } else return false
+                    })
+                    //if it does, find what step we are at
                     //check if the message is just a number. If it is, respond back with a message prompting them for a review.
                     //could implement other checking on the message to ensure it's a valid review. I'm not sure how to do that yet, though.
                     if (isNaN(req.body.Body)) {
@@ -49,7 +73,7 @@ module.exports = app => {
                             })
                             .then(updatedDbText => {
                                 const twiml = new MessagingResponse();
-                                twiml.message("Thank You for your additional comments!");
+                                twiml.message(currentCustomer[0].comResValid);
                                 res.writeHead(200, { 'Content-Type': 'text/xml' });
                                 res.end(twiml.toString());
                             })
@@ -62,7 +86,7 @@ module.exports = app => {
                             .findOneAndUpdate({ _id: dbText[0]._id }, { $push: { messages: { textBody: req.body.Body } } })
                             .then(updatedDbText => {
                                 const twiml = new MessagingResponse();
-                                twiml.message("Please respond with any additional comments you would like to add. Your last message didn't look like a comment...");
+                                twiml.message(currentCustomer[0].comResInvalid);
                                 res.writeHead(200, { 'Content-Type': 'text/xml' });
                                 res.end(twiml.toString());
                             })
@@ -75,6 +99,12 @@ module.exports = app => {
                     db.Location
                         .findOne({ phonenumber: req.body.To })
                         .then(dbLocation => {
+                            //Pulls the relevant customer responses from the cached array.
+                            let currentCustomer = customerResponses.filter(response => {
+                                if (String(dbLocation.userid) === String(response.id)) {
+                                    return true
+                                } else return false
+                            })
                             //create new text in the database
                             db.Text.create({
                                 customerPhonenumber: req.body.From,
@@ -89,7 +119,7 @@ module.exports = app => {
                                 //If the 1-10 review was succesfully added to the database, send this.
                                 .then(newDbText => {
                                     const twiml = new MessagingResponse();
-                                    twiml.message("Thank You for your review! If you would like to leave an additional comment, respond to this message.");
+                                    twiml.message(currentCustomer[0].surResValid);
                                     res.writeHead(200, { 'Content-Type': 'text/xml' });
                                     res.end(twiml.toString());
                                 })
@@ -98,7 +128,7 @@ module.exports = app => {
                                 .catch(err => {
                                     console.log(err);
                                     const twiml = new MessagingResponse();
-                                    twiml.message("Please send a valid rating. Numbers 1 - 10 are accepted.");
+                                    twiml.message(currentCustomer[0].surResInvalid);
                                     res.writeHead(200, { 'Content-Type': 'text/xml' });
                                     res.end(twiml.toString());
                                 });
@@ -109,6 +139,7 @@ module.exports = app => {
             })
 
     });
+
 
 
 }
