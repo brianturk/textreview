@@ -27,7 +27,8 @@ class Header extends React.Component {
     this.state = {
       isOpen: false,
       dropdownOpen: false,
-      color: "transparent"
+      color: "transparent",
+      dashColor: "#FFFFFF"
     };
     this.toggle = this.toggle.bind(this);
     this.dropdownToggle = this.dropdownToggle.bind(this);
@@ -94,6 +95,7 @@ class Header extends React.Component {
     }
   }
   componentDidMount() {
+    if (this.props.dashColor) this.setState({dashColor: this.props.dashColor})
     window.addEventListener("resize", this.updateColor.bind(this));
   }
   componentDidUpdate(e) {
@@ -108,9 +110,6 @@ class Header extends React.Component {
   }
   render() {
     return (
-      //Removed this because it got in the way of the page - BMT
-      // <span></span>
-      // add or remove classes depending if we are on full-screen-maps page or not
       <Navbar
         color={
           this.props.location.pathname.indexOf("full-screen-maps") !== -1
@@ -134,9 +133,9 @@ class Header extends React.Component {
                 className="navbar-toggler"
                 onClick={() => this.openSidebar()}
               >
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
+                <span className="navbar-toggler-bar bar1" style={{background: this.state.dashColor}}/>
+                <span className="navbar-toggler-bar bar2" style={{background: this.state.dashColor}} />
+                <span className="navbar-toggler-bar bar3" style={{background: this.state.dashColor}} />
               </button>
             </div>
             {/* <NavbarBrand href="/">{this.getBrand()}</NavbarBrand> */}
