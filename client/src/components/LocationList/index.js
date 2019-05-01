@@ -6,13 +6,13 @@
 import React, { Component } from "react";
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { checkPropTypes } from 'prop-types';
+// import { checkPropTypes } from 'prop-types';
 
 import API from './../../utils/API';
 
 // Load the cut symbol from react-icons
-import { MdDeleteForever, MdClear, MdCreate } from 'react-icons/md';
-import { set } from "mongoose";
+import { MdClear, MdCreate } from 'react-icons/md';
+// import { set } from "mongoose";
  
 
 
@@ -118,7 +118,7 @@ class LocationList extends Component {
           var tempArray = this.state.data;
           var index = tempArray.find("id", row._id);
           console.log(`handleDelete index = ${index}`);
-          if (index != -1) {
+          if (index !== -1) {
             tempArray.splice(index, 1);  // remove the element at index
             this.setState(this.state.data, this.tempArray);
           }

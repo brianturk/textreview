@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Location from './../utils/Location';
+// import Location from './../utils/Location';
 
 export default {
 
