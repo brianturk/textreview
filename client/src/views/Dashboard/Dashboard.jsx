@@ -3,7 +3,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  // CardFooter,
+  CardFooter,
   CardTitle,
   Row,
   Col,
@@ -97,7 +97,8 @@ class Dashboard extends React.Component {
       let newLabel = [];
       res.data.forEach(item => {
         newData.push(item.aveRating);
-        newLabel.push(moment(new Date(`${item._id.month}/${item._id.day}/${item._id.year}`)).format("ddd"));
+        //newLabel.push(moment(`${item._id.month}-${item._id.day}-${item._id.year}`).format("MMM-d ddd"));
+        newLabel.push(`${item._id.month}-${item._id.day}`);
       });
       this.setState({
         dataArr: newData,
@@ -108,9 +109,42 @@ class Dashboard extends React.Component {
     });
 
     API.getLocations(this.props.user.id).then(res => {
-      console.log(res.data.locations)
+      //console.log(res.data.locations)
       this.setState({
         locations: res.data.locations
+      })
+    }).catch(error => {
+      console.log(error);
+    });
+
+    APIDash.getUserDashMonthlyData(this.props.user.id, phone).then(res => {
+      //console.log(res.data);
+      let newData = [];
+      let newLabel = [];
+      res.data.forEach(item => {
+        newData.push(item.aveRating);
+        //newLabel.push(`${item._id.month}-${item._id.year}`);
+        newLabel.push(moment.monthsShort(item._id.month - 1));
+      });
+      this.setState({
+        dataArrMonthly: newData,
+        labelsMonthly: newLabel
+      })
+    }).catch(error => {
+      console.log(error);
+    });
+
+    APIDash.getUserDashInvalidData(this.props.user.id, phone).then(res => {
+      console.log(res.data);
+      let newData = [];
+      let newLabel = [];
+      res.data.forEach(item => {
+        newData.push(item.aveRating);
+        newLabel.push(`${item._id.month}-${item._id.day}`);
+      });
+      this.setState({
+        dataArrInvalid: newData,
+        labelsInvalid: newLabel
       })
     }).catch(error => {
       console.log(error);
@@ -186,11 +220,11 @@ class Dashboard extends React.Component {
                 </CardFooter>
               </Card>
             </Col> */}
-            <Col xs={12} md={6}>
+            <Col xs={12} md={8}>
               <Card className="card-chart">
                 <CardHeader>
-                  <CardCategory>Weekly</CardCategory>
-                  <CardTitle tag="h4">Summary</CardTitle>
+                  <CardCategory>Complete and Valid</CardCategory>
+                  <CardTitle tag="h4">Monthly Summary</CardTitle>
                   {/* <UncontrolledDropdown>
                     <DropdownToggle
                       className="btn-round btn-simple btn-icon"
@@ -211,27 +245,19 @@ class Dashboard extends React.Component {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={dashboardAllProductsChart.data(this.state.labelsWeekly, this.state.dataArrWeekly)}
+                      data={dashboardAllProductsChart.data(this.state.labelsMonthly, this.state.dataArrMonthly)}
                       options={dashboardAllProductsChart.options}
                     />
                   </div>
                 </CardBody>
-                {/* <CardFooter>
-                  <Stats>
-                    {[
-                      {
-                        i: "now-ui-icons arrows-1_refresh-69",
-                        t: "Just Updated"
-                      }
-                    ]}
-                  </Stats>
-                </CardFooter> */}
+                <CardFooter>
+                </CardFooter>
               </Card>
             </Col>
-            <Col xs={12} md={6}>
+            <Col xs={12} md={4}>
               <Card className="card-chart">
                 <CardHeader>
-                  <CardCategory>Incomplete/Invalid</CardCategory>
+                  <CardCategory>Incomplete Or Invalid</CardCategory>
                   <CardTitle tag="h4">7 Days Summary</CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -242,11 +268,8 @@ class Dashboard extends React.Component {
                     />
                   </div>
                 </CardBody>
-                {/* <CardFooter>
-                  <Stats>
-                    {[{ i: "now-ui-icons ui-2_time-alarm", t: "Last 7 days" }]}
-                  </Stats>
-                </CardFooter> */}
+                <CardFooter>
+                </CardFooter>
               </Card>
             </Col>
           </Row>

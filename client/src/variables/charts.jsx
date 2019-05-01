@@ -96,10 +96,10 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
     ],
     xAxes: [
       {
-        display: 0,
-        ticks: {
-          display: false
-        },
+        // display: 0,
+        // ticks: {
+        //   display: false
+        // },
         gridLines: {
           zeroLineColor: "transparent",
           drawTicks: false,
@@ -110,7 +110,7 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
     ]
   },
   layout: {
-    padding: { left: 0, right: 0, top: 15, bottom: 15 }
+    padding: { left: 0, right: 10, top: 15, bottom: 15 }
   }
 };
 
@@ -275,10 +275,10 @@ const dashboardAllProductsChart = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
     return {
-      labels: ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
+      labels: labels,
       datasets: [
         {
-          label: "Email Stats",
+          label: "Monthly Data",
           borderColor: "#18ce0f",
           pointBorderColor: "#FFF",
           pointBackgroundColor: "#18ce0f",
@@ -289,7 +289,7 @@ const dashboardAllProductsChart = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          data: dataArr
         }
       ]
     };
@@ -308,23 +308,10 @@ const dashboard24HoursPerformanceChart = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB("#2CA8FF", 0.6));
     return {
-      labels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
+      labels,
       datasets: [
         {
-          label: "Active Countries",
+          label: "Invalid/Incomplete",
           backgroundColor: gradientFill,
           borderColor: "#2CA8FF",
           pointBorderColor: "#FFF",
@@ -335,7 +322,7 @@ const dashboard24HoursPerformanceChart = {
           pointRadius: 4,
           fill: true,
           borderWidth: 1,
-          data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155]
+          data: dataArr
         }
       ]
     };
@@ -366,10 +353,10 @@ const dashboard24HoursPerformanceChart = {
       ],
       xAxes: [
         {
-          display: 0,
-          ticks: {
-            display: false
-          },
+          // display: 0,
+          // ticks: {
+          //   display: false
+          // },
           gridLines: {
             zeroLineColor: "transparent",
             drawTicks: false,
