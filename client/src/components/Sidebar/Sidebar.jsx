@@ -18,6 +18,7 @@ class Sidebar extends Component {
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
+    console.log(routeName)
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
   componentDidMount() {
