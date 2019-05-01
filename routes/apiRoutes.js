@@ -2,6 +2,7 @@ const db = require("../models");
 const isAuthenticated = require("../config/isAuthenticated");
 const auth = require("../config/auth");
 const moment = require("moment");
+const ObjectId = require('mongoose').Types.ObjectId
 
 
 // LOGIN ROUTE
@@ -14,29 +15,28 @@ module.exports = app => {
       .catch(err => res.status(400).json(err));
   });
 
-
+//I deleted because it is in userCreateRoutes.js - bmt
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
-  app.get('/api/user/:id', isAuthenticated, (req, res) => {
-    db.User.findById(req.params.id).then(data => {
-      if (data) {
-        res.json(data);
-      } else {
-        res.status(404).send({ success: false, message: 'No user found' });
-      }
-    }).catch(err => res.status(400).send(err));
-  });
+  // app.get('/api/user/:id', isAuthenticated, (req, res) => {
+  //   db.User.findById(req.params.id).then(data => {
+  //     if (data) {
+  //       res.json(data);
+  //     } else {
+  //       res.status(404).send({ success: false, message: 'No user found' });
+  //     }
+  //   }).catch(err => res.status(400).send(err));
+  // });
 
-  // Any route with isAuthenticated is protected and you need a valid token
+ // Any route with isAuthenticated is protected and you need a valid token
   // to access
   app.get('/api/textDetail/', isAuthenticated, (req, res) => {
-   
-    db.Text.find({})
+    db.Text.find({userid: req.user.id})
     .then(data => {
+        // console.log(data)
         res.json(data);
     }).catch(err => res.status(400).send(err));
   });
-
 
   //just used to create dummy data for the demonstration
   app.post('/api/createdata/', (req, res) => {
@@ -63,7 +63,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '8585552323'
+          phonenumber: '8585552821'
         },
         {
           locationName: 'Atlantic',
@@ -87,7 +87,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '8585552323'
+          phonenumber: '8585557923'
         }
       ]
 
@@ -125,9 +125,7 @@ module.exports = app => {
             "Poorly done.  The food was served slowly and tasted terrible"
           ]
 
-          var firstDay = moment().subtract(31, 'days')
-          var lastDay = moment().subtract(1, 'days')
-          var daysBetween = lastDay.diff(firstDay, 'days')
+         
 
 
 
@@ -171,6 +169,10 @@ module.exports = app => {
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
                   var rating = Math.floor(Math.random() * 10) + 1
+
+                  var firstDay = moment().subtract(31, 'days')
+                  var lastDay = moment().subtract(1, 'days')
+                  var daysBetween = lastDay.diff(firstDay, 'days')
 
                   var randomDay = Math.floor(Math.random() * daysBetween) + 1
                   var firstTime = firstDay.add(randomDay, 'days')
@@ -236,7 +238,11 @@ module.exports = app => {
   function createLocation(item) {
     return new Promise(async function (resolve, reject) {
       db.Location.create(item)
-        .then(data => resolve(data))
+        .then(data => {
+          db.User.findOneAndUpdate({_id: item.userid}, {"$push":{locations: data._id}}, { new: true })
+            .then(data => resolve(data))
+            .catch(err => resolve(err))
+        })
         .catch(err => resolve(err))
     })
   }
