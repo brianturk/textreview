@@ -35,8 +35,6 @@ class LocationList extends Component {
           .catch(err => console.log(err))
       };
 
-
-
     // SET STATE 
     // ------------------------------------------------------------------------------------
     state = {

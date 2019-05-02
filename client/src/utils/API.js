@@ -66,7 +66,6 @@ export default {
   },
 
 
-
   // ROUTE FOR DELETING A LOCATION
   // -----------------------------------------------------------------------------------------
   // app.post("/api/deletelocation/:id/:userid", function(req, res) {     

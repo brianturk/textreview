@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import withAuth from './../components/withAuth';
 import API from './../utils/API';
-import LocationList from '../components/LocationList';
 
 import Sidebar from './../components/Sidebar/Sidebar.jsx';
 import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
@@ -14,7 +13,10 @@ class Profile extends Component {
   state = {
     username: "",
     email: "",
-    locations: [],
+    street:"",
+    city:"",
+    state:"",
+    zip:""
   };
 
   componentDidMount() {
@@ -25,31 +27,15 @@ class Profile extends Component {
         street: res.data.street,
         city: res.data.city,
         state: res.data.state,
-        zip: res.data.zip,
-        locations: res.data.locations,
+        zip: res.data.zip
       })
     });
 
   }
 
 
-  // TODO: 
-  // Called by editable user name to update state in Profile
-  handleUserName(parent, editItem) {
-
-    console.log(`handleUserName ${editItem}`);
-
-    // update state here
-    parent.setState({ username: editItem });
-
-  }
-
-
-
-
 
   render() {
-
 
     return (
 
@@ -81,28 +67,12 @@ class Profile extends Component {
                     <div className = "row">
                         <p>Zip: {this.state.zip} </p>
                     </div>
-                    <Link to="/editprofile">Edit Profile Information</Link>
+                    <Link to="/edituser">Edit Profile Information</Link>
+                    <Link to="/locationlist">&nbsp;&nbsp;&nbsp;&nbsp;Location List</Link>
               </div>
-        
-              <div className = "container">
-                  <h4>Location Info</h4>      
-                  <div>
-                    <LocationList 
-                      userid={this.props.user.id}
-                      history={this.props.history}
-                    />
-                  </div>
-                  <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-              </div>
-
-
-
           </div>
         </div>
       </div>
-
-
     )
   }
 }
