@@ -27,18 +27,18 @@ var dashRoutes = [
     component: Profile
   },
   {
-    path: "/response",
-    name: "Response",
-    icon: "users_single-02",
-    header: "Response",
-    component: TwilioResponses
-  },
-  {
     path: "/locationlist",
     name: "Locations",
-    icon: "users_single-02",
+    icon: "location_world",
     header: "Locations",
     component: Locations
+  },
+  {
+    path: "/response",
+    name: "Response",
+    icon: "tech_mobile",
+    header: "Response",
+    component: TwilioResponses
   },
   { redirect: true, path: "/", pathTo: "/", name: "Dashboard" }
 ];

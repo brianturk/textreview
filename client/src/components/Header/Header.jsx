@@ -1,21 +1,7 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 import {
-  // Collapse,
   Navbar,
-  // NavbarToggler,
-  // NavbarBrand,
-  // Nav,
-  // NavItem,
-  // Dropdown,
-  // DropdownToggle,
-  // DropdownMenu,
-  // DropdownItem,
-  Container,
-  // InputGroup,
-  // InputGroupText,
-  // InputGroupAddon,
-  // Input
+  Container
 } from "reactstrap";
 
 import dashboardRoutes from "../../dashboard/routes/dashboard.jsx";
@@ -139,28 +125,9 @@ class Header extends React.Component {
                 <span className="navbar-toggler-bar bar3" style={{background: this.state.dashColor}} />
               </button>
             </div>
-            {/* <NavbarBrand href="/">{this.getBrand()}</NavbarBrand> */}
           </div>
+          {this.props.content1}
           {this.props.content}
-          {/* <NavbarToggler onClick={this.toggle}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler> */}
-          {/* <Collapse
-            isOpen={this.state.isOpen}
-            navbar
-            className="justify-content-end"
-          >
-            <Nav navbar>
-              <NavItem>
-                <i className="now-ui-icons media-1_button-power" alt="Logout" onClick={() => this.Auth.logout()} />
-                <p>
-                  <span className="d-lg-none d-md-block">Logout</span>
-                </p>
-              </NavItem>
-            </Nav>
-          </Collapse> */}
         </Container>
       </Navbar>
     );
