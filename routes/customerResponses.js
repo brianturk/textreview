@@ -16,7 +16,6 @@ function updateResponses() {
     return db.User
         .find({})
         .then(dbUser => {
-            // console.log(dbUser);
             dbUser.forEach(user => {
                 customerResponses.push(new Customer(
                     user._id,
@@ -25,7 +24,6 @@ function updateResponses() {
                     user.twilioResponses.comResValid,
                     user.twilioResponses.comResInvalid))
             })
-            console.log(customerResponses);
             return customerResponses;
         })
 }
