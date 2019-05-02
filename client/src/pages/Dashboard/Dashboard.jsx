@@ -6,12 +6,7 @@ import {
   CardFooter,
   CardTitle,
   Row,
-  Col,
-  // UncontrolledDropdown,
-  // DropdownToggle,
-  // DropdownMenu,
-  // DropdownItem,
-  // Table
+  Col
 } from "reactstrap";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 // react plugin used to create charts
@@ -19,34 +14,17 @@ import { Line, Bar } from "react-chartjs-2";
 import APIDash from './../../utils/APIDash';
 import API from './../../utils/API';
 
-//import { PanelHeader, Stats, CardCategory, Tasks } from "react";
 import PanelHeader from './../../components/PanelHeader/PanelHeader.jsx';
-// import Stats from './../../components/Stats/Stats.jsx';
 import CardCategory from './../../components/CardElements/CardCategory.jsx';
-// import Tasks from './../../components/Tasks/Tasks.jsx';
 
 import {
   dashboardPanelChart,
-  // dashboardShippedProductsChart,
   dashboardAllProductsChart,
   dashboard24HoursPerformanceChart
 } from "../../dashboard/variables/charts.jsx";
 import Header from './../../components/Header/Header.jsx';
 
 import moment from "moment";
-
-// const labels = 
-// ["MON",
-// "TUE",
-// "WED",
-// "THU",
-// "FRI",
-// "SAT",
-// "SUN"];
-
-// // const dataArr = [50, 150, 100, 190, 130, 90, 150];
-// const dataArr = [1, 2, 3, 4, 5, 6, 107];
-// const locations = [{id:1,name:"One"}, {id:2,name:"Two"}, {id:3,name:"Three"}];
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -63,7 +41,9 @@ class Dashboard extends React.Component {
       labelsInvalid: [],
       locationPhone: 0,
       locations: [],
-      dropDownValue: "All"
+      dropDownValue: "All",
+      monthlyChart: "No Data",
+      invalidChart: "No Data"
     };
   }
 
@@ -73,24 +53,16 @@ class Dashboard extends React.Component {
     }));
   }
 
-  changeValue(value,phone) {
-    this.setState({dropDownValue: value, locationPhone:phone});
+  changeValue(value, phone) {
+    this.setState({ dropDownValue: value, locationPhone: phone });
     this.getDataCharts(phone);
   }
-  // state = {
-  //   dataArr: [],
-  //   labels: [],
-  //   dataArrWeekly: [],
-  //   labelsWeekly: [],
-  //   dataArrInvalid: [],
-  //   labelsInvalid: [],
-  //   locationPhone: 0
-  // }
+
   componentDidMount() {
     this.getDataCharts(0);
   }
 
-  getDataCharts(phone){
+  getDataCharts(phone) {
     APIDash.getUserDashData(this.props.user.id, phone).then(res => {
       let newData = [];
       let newLabel = [];
@@ -119,13 +91,13 @@ class Dashboard extends React.Component {
       let newLabel = [];
       res.data.forEach(item => {
         newData.push(item.aveRating);
-        //newLabel.push(`${item._id.month}-${item._id.year}`);
         newLabel.push(moment.monthsShort(item._id.month - 1));
       });
       this.setState({
         dataArrMonthly: newData,
         labelsMonthly: newLabel
       })
+      if (this.state.dataArrMonthly.length>0) this.setState({monthlyChart: ""});
     }).catch(error => {
       console.log(error);
     });
@@ -141,6 +113,7 @@ class Dashboard extends React.Component {
         dataArrInvalid: newData,
         labelsInvalid: newLabel
       })
+      if (this.state.dataArrInvalid.length>0) this.setState({invalidChart: ""});
     }).catch(error => {
       console.log(error);
     });
@@ -152,12 +125,12 @@ class Dashboard extends React.Component {
         <Header {...this.props} content={
           <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret>
-            {this.state.dropDownValue}
-          </DropdownToggle>
+              {this.state.dropDownValue}
+            </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem key={0} onClick={()=>this.changeValue("All",0)}>All</DropdownItem>
+              <DropdownItem key={0} onClick={() => this.changeValue("All", 0)}>All</DropdownItem>
               {this.state.locations.map((prop, key) => {
-                return <DropdownItem key={key} onClick={()=>this.changeValue(prop.locationName,prop.phonenumber)}>{prop.locationName}</DropdownItem>;
+                return <DropdownItem key={key} onClick={() => this.changeValue(prop.locationName, prop.phonenumber)}>{prop.locationName}</DropdownItem>;
               })}
             </DropdownMenu>
           </Dropdown>
@@ -173,69 +146,11 @@ class Dashboard extends React.Component {
         />
         <div className="content">
           <Row>
-            {/* <Col xs={12} md={4}>
-              <Card className="card-chart">
-                <CardHeader>
-                  <CardCategory>Global Sales</CardCategory>
-                  <CardTitle tag="h4">Shipped Products</CardTitle>
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      className="btn-round btn-simple btn-icon"
-                      color="default"
-                    >
-                      <i className="now-ui-icons loader_gear" />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another Action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                      <DropdownItem className="text-danger">
-                        Remove data
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={dashboardShippedProductsChart.data}
-                      options={dashboardShippedProductsChart.options}
-                    />
-                  </div>
-                </CardBody>
-                <CardFooter>
-                  <Stats>
-                    {[
-                      {
-                        i: "now-ui-icons arrows-1_refresh-69",
-                        t: "Just Updated"
-                      }
-                    ]}
-                  </Stats>
-                </CardFooter>
-              </Card>
-            </Col> */}
             <Col xs={12} md={8}>
               <Card className="card-chart">
                 <CardHeader>
                   <CardCategory>Complete and Valid</CardCategory>
                   <CardTitle tag="h4">Monthly Summary</CardTitle>
-                  {/* <UncontrolledDropdown>
-                    <DropdownToggle
-                      className="btn-round btn-simple btn-icon"
-                      color="default"
-                    >
-                      <i className="now-ui-icons loader_gear" />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another Action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                      <DropdownItem className="text-danger">
-                        Remove data
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown> */}
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
@@ -246,6 +161,7 @@ class Dashboard extends React.Component {
                   </div>
                 </CardBody>
                 <CardFooter>
+                  {this.state.monthlyChart}
                 </CardFooter>
               </Card>
             </Col>
@@ -264,6 +180,7 @@ class Dashboard extends React.Component {
                   </div>
                 </CardBody>
                 <CardFooter>
+                {this.state.invalidChart}
                 </CardFooter>
               </Card>
             </Col>
