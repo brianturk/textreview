@@ -13,7 +13,6 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import AddLocation from './pages/AddLocation';
 import EditLocation from './pages/EditLocation';
-import Navbar from './components/Navbar';
 
 import { createBrowserHistory } from "history";
 import 'bootstrap/dist/css/bootstrap.css';
@@ -24,28 +23,27 @@ import indexRoutes from "./dashboard/routes/index.jsx";
 const hist = createBrowserHistory();
 
 // Here is if we have an id_token in localStorage
-if(localStorage.getItem("id_token")) {
+if (localStorage.getItem("id_token")) {
   // then we will attach it to the headers of each request from react application via axios
   axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('id_token')}`;
 }
 
 ReactDOM.render(
-    <Router>
-        <div>
-            <Navbar />
-            <Switch>
-            <Route exact path="/" component={App} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/addlocation" component={AddLocation} />      
-            <Route exact path="/editlocation" component={EditLocation} />          
-            {indexRoutes.map((prop, key) => {
-              return <Route path={prop.path} key={key} component={prop.component} />;
-            })}
-            </Switch>
-        </div>
-    </Router>
-    , document.getElementById('root')
+  <Router>
+    <div>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/addlocation" component={AddLocation} />
+        <Route exact path="/editlocation" component={EditLocation} />
+        {indexRoutes.map((prop, key) => {
+          return <Route path={prop.path} key={key} component={prop.component} />;
+        })}
+      </Switch>
+    </div>
+  </Router>
+  , document.getElementById('root')
 );
 registerServiceWorker();
