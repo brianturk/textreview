@@ -29,14 +29,14 @@ var dashRoutes = [
   {
     path: "/response",
     name: "Response",
-    icon: "users_single-02",
+    icon: "tech_mobile",
     header: "Response",
     component: TwilioResponses
   },
   {
     path: "/locationlist",
     name: "Locations",
-    icon: "users_single-02",
+    icon: "location_world",
     header: "Locations",
     component: Locations
   },
