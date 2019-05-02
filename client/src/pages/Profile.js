@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 import withAuth from './../components/withAuth';
 import API from './../utils/API';
 import LocationList from '../components/LocationList';
-import TwilioResponses from '../components/TwilioResponses';
+
+import Sidebar from './../components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
+import Header from './../components/Header/Header.jsx';
 
 class Profile extends Component {
 
@@ -12,10 +15,6 @@ class Profile extends Component {
     username: "",
     email: "",
     locations: [],
-    surResValid: "",
-    surResInvalid: "",
-    comResValid: "",
-    comResInvalid: ""
   };
 
   componentDidMount() {
@@ -28,10 +27,6 @@ class Profile extends Component {
         state: res.data.state,
         zip: res.data.zip,
         locations: res.data.locations,
-        surResValid: res.data.twilioResponses.surResValid || "",
-        surResInvalid: res.data.twilioResponses.surResInvalid || "",
-        comResValid: res.data.twilioResponses.comResValid || "",
-        comResInvalid: res.data.twilioResponses.comResInvalid || ""
       })
     });
 
@@ -49,20 +44,7 @@ class Profile extends Component {
 
   }
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
 
-  handleTwilioResponsesSubmit = event => {
-    event.preventDefault();
-    API
-      .submitTwilioResponses(this.state.surResValid, this.state.surResInvalid, this.state.comResValid, this.state.comResInvalid)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
-  }
 
 
 
@@ -70,6 +52,13 @@ class Profile extends Component {
 
 
     return (
+
+      <div className="wrapper">
+      <Sidebar {...this.props} routes={dashboardRoutes} />
+      <div className="main-panel" ref="mainPanel">
+        <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
+        <hr />
+
       <div className="container Profile">
 
               <div className = "container">  
@@ -108,19 +97,12 @@ class Profile extends Component {
               </div>
 
 
-        <div>
-            <TwilioResponses 
-              handleInputChange={this.handleInputChange}
-              handleTwilioResponsesSubmit = {this.handleTwilioResponsesSubmit}
-              responses={this.state.twilioResponses}
-              surResValid={this.state.surResValid}
-              surResInvalid={this.state.surResInvalid}
-              comResValid={this.state.comResValid}
-              comResInvalid={this.state.comResInvalid}
-            />
+
+          </div>
+        </div>
       </div>
 
-      </div>
+
     )
   }
 }

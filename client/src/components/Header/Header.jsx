@@ -1,24 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
-  Collapse,
+  // Collapse,
   Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
+  // NavbarToggler,
+  // NavbarBrand,
+  // Nav,
+  // NavItem,
+  // Dropdown,
+  // DropdownToggle,
+  // DropdownMenu,
+  // DropdownItem,
   Container,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  Input
+  // InputGroup,
+  // InputGroupText,
+  // InputGroupAddon,
+  // Input
 } from "reactstrap";
 
-import dashboardRoutes from "../../routes/dashboard.jsx";
+import dashboardRoutes from "../../dashboard/routes/dashboard.jsx";
 import AuthService from '../AuthService';
 
 class Header extends React.Component {
@@ -27,7 +27,8 @@ class Header extends React.Component {
     this.state = {
       isOpen: false,
       dropdownOpen: false,
-      color: "transparent"
+      color: "transparent",
+      dashColor: "#FFFFFF"
     };
     this.toggle = this.toggle.bind(this);
     this.dropdownToggle = this.dropdownToggle.bind(this);
@@ -58,18 +59,18 @@ class Header extends React.Component {
       if (prop.collapse) {
         prop.views.map((prop, key) => {
           if (prop.path === this.props.location.pathname) {
-            name = prop.name;
+            name = prop.header;
           }
           return null;
         });
       } else {
         if (prop.redirect) {
           if (prop.path === this.props.location.pathname) {
-            name = prop.name;
+            name = prop.header;
           }
         } else {
           if (prop.path === this.props.location.pathname) {
-            name = prop.name;
+            name = prop.header;
           }
         }
       }
@@ -94,6 +95,8 @@ class Header extends React.Component {
     }
   }
   componentDidMount() {
+    document.documentElement.classList.value="";
+    if (this.props.dashColor) this.setState({dashColor: this.props.dashColor})
     window.addEventListener("resize", this.updateColor.bind(this));
   }
   componentDidUpdate(e) {
@@ -108,60 +111,58 @@ class Header extends React.Component {
   }
   render() {
     return (
-      //Removed this because it got in the way of the page - BMT
-      <span></span>
-      // add or remove classes depending if we are on full-screen-maps page or not
-      // <Navbar
-      //   color={
-      //     this.props.location.pathname.indexOf("full-screen-maps") !== -1
-      //       ? "white"
-      //       : this.state.color
-      //   }
-      //   expand="lg"
-      //   className={
-      //     this.props.location.pathname.indexOf("full-screen-maps") !== -1
-      //       ? "navbar-absolute fixed-top"
-      //       : "navbar-absolute fixed-top " +
-      //       (this.state.color === "transparent" ? "navbar-transparent " : "")
-      //   }
-      // >
-      //   <Container fluid>
-      //     <div className="navbar-wrapper">
-      //       <div className="navbar-toggle">
-      //         <button
-      //           type="button"
-      //           ref="sidebarToggle"
-      //           className="navbar-toggler"
-      //           onClick={() => this.openSidebar()}
-      //         >
-      //           <span className="navbar-toggler-bar bar1" />
-      //           <span className="navbar-toggler-bar bar2" />
-      //           <span className="navbar-toggler-bar bar3" />
-      //         </button>
-      //       </div>
-      //       <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
-      //     </div>
-      //     <NavbarToggler onClick={this.toggle}>
-      //       <span className="navbar-toggler-bar navbar-kebab" />
-      //       <span className="navbar-toggler-bar navbar-kebab" />
-      //       <span className="navbar-toggler-bar navbar-kebab" />
-      //     </NavbarToggler>
-      //     <Collapse
-      //       isOpen={this.state.isOpen}
-      //       navbar
-      //       className="justify-content-end"
-      //     >
-      //       <Nav navbar>
-      //         <NavItem>
-      //           <i className="now-ui-icons media-1_button-power" alt="Logout" onClick={() => this.Auth.logout()} />
-      //           <p>
-      //             <span className="d-lg-none d-md-block">Logout</span>
-      //           </p>
-      //         </NavItem>
-      //       </Nav>
-      //     </Collapse>
-      //   </Container>
-      // </Navbar>
+      <Navbar
+        color={
+          this.props.location.pathname.indexOf("full-screen-maps") !== -1
+            ? "white"
+            : this.state.color
+        }
+        expand="lg"
+        className={
+          this.props.location.pathname.indexOf("full-screen-maps") !== -1
+            ? "navbar-absolute fixed-top"
+            : "navbar-absolute fixed-top " +
+            (this.state.color === "transparent" ? "navbar-transparent " : "")
+        }
+      >
+        <Container fluid>
+          <div className="navbar-wrapper">
+            <div className="navbar-toggle">
+              <button
+                type="button"
+                ref="sidebarToggle"
+                className="navbar-toggler"
+                onClick={() => this.openSidebar()}
+              >
+                <span className="navbar-toggler-bar bar1" style={{background: this.state.dashColor}}/>
+                <span className="navbar-toggler-bar bar2" style={{background: this.state.dashColor}} />
+                <span className="navbar-toggler-bar bar3" style={{background: this.state.dashColor}} />
+              </button>
+            </div>
+            {/* <NavbarBrand href="/">{this.getBrand()}</NavbarBrand> */}
+          </div>
+          {this.props.content}
+          {/* <NavbarToggler onClick={this.toggle}>
+            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className="navbar-toggler-bar navbar-kebab" />
+          </NavbarToggler> */}
+          {/* <Collapse
+            isOpen={this.state.isOpen}
+            navbar
+            className="justify-content-end"
+          >
+            <Nav navbar>
+              <NavItem>
+                <i className="now-ui-icons media-1_button-power" alt="Logout" onClick={() => this.Auth.logout()} />
+                <p>
+                  <span className="d-lg-none d-md-block">Logout</span>
+                </p>
+              </NavItem>
+            </Nav>
+          </Collapse> */}
+        </Container>
+      </Navbar>
     );
   }
 }

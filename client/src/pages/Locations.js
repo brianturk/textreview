@@ -8,7 +8,6 @@ import LocationList from '../components/LocationList';
 
 class Locations extends Component {
 
-
     
   render() {
 
