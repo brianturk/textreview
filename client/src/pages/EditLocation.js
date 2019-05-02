@@ -3,7 +3,6 @@
 // This page allows users to add those locations to the system
 
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import AuthService from '../components/AuthService';
 import withAuth from '../components/withAuth';
 import API from '../utils/API';
@@ -29,19 +28,6 @@ class EditLocation extends Component {
   }
 
   componentDidMount () {
-    console.log("this.props.location.state");
-    console.log(this.props.location.state);
-    // this.setState(this.state.locationName, this.props.location.state.locationName);
-    //const  row  = this.props.location.state;
-    //this.setState(this.state.id, this.props.location.state.row._id);
-
-    // this.setState(this.state.locationName, this.props.location.state.row.locationName);
-    // this.setState(this.state.locationName, this.props.location.state.row.locationName);
-    // this.setState(this.state.street, this.props.location.state.row.street);
-    // this.setState(this.state.city, this.props.location.state.row.city);
-    // this.setState(this.state.state, this.props.location.state.row.state);
-    // this.setState(this.state.zip, this.props.location.state.row.zip);
-    // this.setState(this.state.phonenumber, this.props.location.state.row.phonenumber);
 
   }
 
@@ -61,13 +47,11 @@ class EditLocation extends Component {
                                 "userid"        :       this.props.user.id
                             });
 
-    console.log('handleFormSubmit for Edit');
-    console.log(newLocation);
     newLocation._id = this.props.location.state.row._id;
     API.updateLocation(this.props.location.state.row._id, newLocation)
       .then(res => {
         // once the user has updated a location send them to the profile page
-        this.props.history.replace('/profile');
+        this.props.history.replace('/locationlist');
       })
       .catch(err => alert(err));
   };

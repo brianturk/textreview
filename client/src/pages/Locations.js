@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import { render } from 'react-dom';
 import { Link } from 'react-router-dom';
 import withAuth from './../components/withAuth';
-import API from './../utils/API';
 import LocationList from '../components/LocationList';
 
 import Sidebar from './../components/Sidebar/Sidebar.jsx';
@@ -10,11 +9,8 @@ import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
 import Header from './../components/Header/Header.jsx';
 
 class Locations extends Component {
-
     
   render() {
-
-
     return (
       <div className="wrapper">
       <Sidebar {...this.props} routes={dashboardRoutes} />
@@ -30,9 +26,11 @@ class Locations extends Component {
                       history={this.props.history}
                     />
                   </div>
-                  <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
               </div>
+
+          <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+          
       </div>
       </div>
       </div>
