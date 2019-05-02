@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 // import { render } from 'react-dom';
 import { Link } from 'react-router-dom';
 import withAuth from './../components/withAuth';
-import API from './../utils/API';
 import LocationList from '../components/LocationList';
 
 
 class Locations extends Component {
-
     
   render() {
-
-
     return (
       <div className="container Profile">
               <div className = "container">
@@ -22,9 +18,11 @@ class Locations extends Component {
                       history={this.props.history}
                     />
                   </div>
-                  <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
               </div>
+
+          <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+          
       </div>
     )
   }

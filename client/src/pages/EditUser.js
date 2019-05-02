@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import AuthService from './../components/AuthService';
 import API from './../utils/API';
 
@@ -10,9 +9,9 @@ class EditUser extends Component {
   }
 
   componentWillMount() {
-    if (this.Auth.loggedIn()) {
-      this.props.history.replace('/');
-    }
+    // if (this.Auth.loggedIn()) {
+    //   this.props.history.replace('/');
+    // }
   }
 
   handleFormSubmit = event => {
@@ -22,7 +21,7 @@ class EditUser extends Component {
       .then(res => {
         // once the user has signed up
         // send them to the login page
-        this.props.history.replace('/login');
+        this.props.history.replace('/profile');
       })
       .catch(err => alert(err));
   };
@@ -107,7 +106,6 @@ class EditUser extends Component {
 
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
-        <p><Link to="/login">Go to Login</Link></p>
       </div>
     );
   }

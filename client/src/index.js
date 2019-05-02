@@ -13,6 +13,8 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import AddLocation from './pages/AddLocation';
 import EditLocation from './pages/EditLocation';
+import EditUser from './pages/EditUser';
+import Locations from './pages/Locations';
 import Navbar from './components/Navbar';
 
 import { createBrowserHistory } from "history";
@@ -41,6 +43,8 @@ ReactDOM.render(
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/addlocation" component={AddLocation} />      
             <Route exact path="/editlocation" component={EditLocation} />
+            <Route exact path="/locationlist" component={Locations} />
+            <Route exact path="/edituser" component={EditUser} />
             {indexRoutes.map((prop, key) => {
               return <Route path={prop.path} key={key} component={prop.component} />;
             })}
