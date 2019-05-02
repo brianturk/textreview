@@ -134,7 +134,7 @@ class Dashboard extends React.Component {
               })}
             </DropdownMenu>
           </Dropdown>
-        } />
+        } content1={<div>7 Days Summary</div>}/>
         <PanelHeader
           size="lg"
           content={
