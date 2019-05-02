@@ -10,6 +10,14 @@ import Header from './../components/Header/Header.jsx';
 
 class Locations extends Component {
     
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+
+    // redirect to Add Location 
+    this.props.history.replace('/addlocation');
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -23,14 +31,16 @@ class Locations extends Component {
                   <div>
                     <LocationList 
                       userid={this.props.user.id}
-                      history={this.props.history}
                     />
                   </div>
               </div>
 
-          <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+{/*           <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp; */}
           
+        <form action="/addlocation">
+          <button type="submit" className="btn btn-primary">Add a location</button>
+        </form>
+
       </div>
       </div>
       </div>

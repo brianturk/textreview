@@ -67,8 +67,11 @@ class Profile extends Component {
                     <div className = "row">
                         <p>Zip: {this.state.zip} </p>
                     </div>
-                    <Link to="/edituser">Edit Profile Information</Link>
-                    <Link to="/locationlist">&nbsp;&nbsp;&nbsp;&nbsp;Location List</Link>
+
+                    <form action="/edituser">
+                      <button type="submit" className="btn btn-primary">Edit Profile</button>
+                    </form>
+
               </div>
           </div>
         </div>
