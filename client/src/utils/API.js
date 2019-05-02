@@ -23,7 +23,13 @@ export default {
       street: street,
       city: city,
       state: state,
-      zip: zip
+      zip: zip,
+      twilioResponses: {
+        surResValid: "",
+        surResInvalid: "",
+        comResValid: "",
+        comResInvalid: ""
+      }
     });
   },
 
@@ -67,6 +73,17 @@ export default {
   //Get the texts for the detail page
   getDetail: () => {
     return axios.get('api/textDetail')
+  },
+
+  submitTwilioResponses: (surResValid, surResInvalid, comResValid, comResInvalid) => {
+    return axios.post("api/twilio/updateResponses", {
+      surResValid: surResValid,
+      surResInvalid: surResInvalid,
+      comResValid: comResValid,
+      comResInvalid: comResInvalid
+    }).then(response => {
+      axios.get("/api/twilio/updateCustomerResponses")
+    })
   }
 }
 

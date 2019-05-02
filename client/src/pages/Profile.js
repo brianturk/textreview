@@ -5,22 +5,30 @@ import withAuth from './../components/withAuth';
 import API from './../utils/API';
 import LocationList from '../components/LocationList';
 import contentEditable from '../components/ContentEditable';
+import TwilioResponses from '../components/TwilioResponses';
 
 class Profile extends Component {
 
   state = {
     username: "",
     email: "",
-    locations : []
+    locations: [],
+    surResValid: "",
+    surResInvalid: "",
+    comResValid: "",
+    comResInvalid: ""
   };
-
 
   componentDidMount() {
     API.getUser(this.props.user.id).then(res => {
-       this.setState({
-        username:   res.data.username,
-        email:      res.data.email,
-        // locations:  res.data.locations
+      this.setState({
+        username: res.data.username,
+        email: res.data.email,
+        locations: res.data.locations,
+        surResValid: res.data.twilioResponses.surResValid || "",
+        surResInvalid: res.data.twilioResponses.surResInvalid || "",
+        comResValid: res.data.twilioResponses.comResValid || "",
+        comResInvalid: res.data.twilioResponses.comResInvalid || ""
       })
     });
 
@@ -34,8 +42,23 @@ class Profile extends Component {
     console.log(`handleUserName ${editItem}`);
 
     // update state here
-    parent.setState({username: editItem});
+    parent.setState({ username: editItem });
 
+  }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleTwilioResponsesSubmit = event => {
+    event.preventDefault();
+    API
+      .submitTwilioResponses(this.state.surResValid, this.state.surResInvalid, this.state.comResValid, this.state.comResInvalid)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
   }
 
 
@@ -67,8 +90,20 @@ class Profile extends Component {
             <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
             <Link to="/">Go home</Link>
           </div>
-    </div>
 
+        <div>
+            <TwilioResponses 
+              handleInputChange={this.handleInputChange}
+              handleTwilioResponsesSubmit = {this.handleTwilioResponsesSubmit}
+              responses={this.state.twilioResponses}
+              surResValid={this.state.surResValid}
+              surResInvalid={this.state.surResInvalid}
+              comResValid={this.state.comResValid}
+              comResInvalid={this.state.comResInvalid}
+            />
+      </div>
+
+      </div>
     )
   }
 }

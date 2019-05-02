@@ -2,6 +2,7 @@ const db = require("../models");
 const isAuthenticated = require("../config/isAuthenticated");
 const auth = require("../config/auth");
 const moment = require("moment");
+const ObjectId = require('mongoose').Types.ObjectId
 
 
 // LOGIN ROUTE
@@ -14,31 +15,41 @@ module.exports = app => {
       .catch(err => res.status(400).json(err));
   });
 
-
+//I deleted because it is in userCreateRoutes.js - bmt
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
-  app.get('/api/user/:id', isAuthenticated, (req, res) => {
-    db.User.findById(req.params.id).then(data => {
-      if (data) {
-        res.json(data);
-      } else {
-        res.status(404).send({ success: false, message: 'No user found' });
-      }
-    }).catch(err => res.status(400).send(err));
-  });
+  // app.get('/api/user/:id', isAuthenticated, (req, res) => {
+  //   db.User.findById(req.params.id).then(data => {
+  //     if (data) {
+  //       res.json(data);
+  //     } else {
+  //       res.status(404).send({ success: false, message: 'No user found' });
+  //     }
+  //   }).catch(err => res.status(400).send(err));
+  // });
 
  // Any route with isAuthenticated is protected and you need a valid token
   // to access
-  // app.get('/api/textDetail/', isAuthenticated, (req, res) => {
-    app.get('/api/textDetail/', (req, res) => {
-
-      db.Text.find({})
-    // db.Text.find({_id: req.user.id})
+  app.get('/api/textDetail/', isAuthenticated, (req, res) => {
+    db.Text.find({userid: req.user.id})
     .then(data => {
+        // console.log(data)
         res.json(data);
     }).catch(err => res.status(400).send(err));
   });
 
+  app.post("/api/twilio/updateResponses", isAuthenticated, (req, res) => {
+    db.User.findOneAndUpdate({_id: req.user.id}, {
+      twilioResponses: {
+        surResValid: req.body.surResValid,
+        surResInvalid: req.body.surResInvalid,
+        comResValid: req.body.comResValid,
+        comResInvalid: req.body.comResInvalid
+      }
+    })
+      .then(dbUser => res.json("Responses Updated!"))
+      .catch(err => res.json(err))
+  })
 
   //just used to create dummy data for the demonstration
   app.post('/api/createdata/', (req, res) => {
@@ -65,7 +76,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '8585552323'
+          phonenumber: '+16193044042'
         },
         {
           locationName: 'Atlantic',
@@ -89,7 +100,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '8585552323'
+          phonenumber: '8585557923'
         }
       ]
 
@@ -166,7 +177,7 @@ module.exports = app => {
 
                 var location = item
                 var x = 0;
-                for (x = 0; x < 1000; x++) {
+                for (x = 0; x < 200; x++) {
                   //pick random location
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
