@@ -3,6 +3,9 @@ import API from "../../utils/API";
 import withAuth from '../../components/withAuth';
 import Popup from 'reactjs-popup'
 
+import Sidebar from './../../components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./../../dashboard/routes/dashboard.jsx";
+import Header from './../../components/Header/Header.jsx';
 
 class TwilioResponses extends Component {
 
@@ -54,7 +57,12 @@ class TwilioResponses extends Component {
             }
         }
         return (
-            <div>
+          <div className="wrapper">
+      <Sidebar {...this.props} routes={dashboardRoutes} />
+      <div className="main-panel" ref="mainPanel">
+        <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
+        <hr />
+        <div className="container">
                 <hr />
                 <h3>Text Responses</h3>
                 <Popup
@@ -99,6 +107,8 @@ class TwilioResponses extends Component {
                 <br></br>
                 <button style={styles.responseButton} onClick={this.handleTwilioResponsesSubmit}>Submit Responses</button>
             </div>
+        </div>
+        </div>
         )
     }
 
