@@ -23,7 +23,13 @@ export default {
       street: street,
       city: city,
       state: state,
-      zip: zip
+      zip: zip,
+      twilioResponses: {
+        surResValid: "",
+        surResInvalid: "",
+        comResValid: "",
+        comResInvalid: ""
+      }
     });
   },
 
