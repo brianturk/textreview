@@ -19,7 +19,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "./assets/scss/now-ui-dashboard.css";
 import "./assets/css/demo.css";
 import indexRoutes from "./dashboard/routes/index.jsx";
-// import TwilioResponses from './pages/TwilioResponses';
+import TwilioResponses from './pages/TwilioResponses';
+import EditUser from './pages/EditUser';
+import Locations from './pages/Locations';
 
 const hist = createBrowserHistory();
 
@@ -39,6 +41,9 @@ ReactDOM.render(
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/addlocation" component={AddLocation} />      
             <Route exact path="/editlocation" component={EditLocation} />
+            <Route exact path="/response" component={TwilioResponses} />
+            <Route exact path="/edituser" component={EditUser} />
+            <Route exact path="/locationlist" component={Locations} />
             {indexRoutes.map((prop, key) => {
               return <Route path={prop.path} key={key} component={prop.component} />;
             })}

@@ -41,7 +41,9 @@ class Dashboard extends React.Component {
       labelsInvalid: [],
       locationPhone: 0,
       locations: [],
-      dropDownValue: "All"
+      dropDownValue: "All",
+      monthlyChart: "No Data",
+      invalidChart: "No Data"
     };
   }
 
@@ -95,6 +97,7 @@ class Dashboard extends React.Component {
         dataArrMonthly: newData,
         labelsMonthly: newLabel
       })
+      if (this.state.dataArrMonthly.length>0) this.setState({monthlyChart: ""});
     }).catch(error => {
       console.log(error);
     });
@@ -110,6 +113,7 @@ class Dashboard extends React.Component {
         dataArrInvalid: newData,
         labelsInvalid: newLabel
       })
+      if (this.state.dataArrInvalid.length>0) this.setState({invalidChart: ""});
     }).catch(error => {
       console.log(error);
     });
@@ -157,6 +161,7 @@ class Dashboard extends React.Component {
                   </div>
                 </CardBody>
                 <CardFooter>
+                  {this.state.monthlyChart}
                 </CardFooter>
               </Card>
             </Col>
@@ -175,6 +180,7 @@ class Dashboard extends React.Component {
                   </div>
                 </CardBody>
                 <CardFooter>
+                {this.state.invalidChart}
                 </CardFooter>
               </Card>
             </Col>
