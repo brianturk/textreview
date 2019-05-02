@@ -3425,7 +3425,7 @@ Created using IcoMoon - icomoon.io
     display: none; }
   .navbar .dropdown.show .dropdown-menu,
   .navbar .dropdown .dropdown-menu {
-    background-color: transparent;
+    /* background-color: transparent; */
     border: 0;
     transition: none;
     -webkit-box-shadow: none;
