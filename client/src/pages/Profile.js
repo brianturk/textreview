@@ -79,35 +79,38 @@ class Profile extends Component {
         <hr/>
       <div className="container Profile">
         <h3>Profile page</h3>
-
-        <div className="row">
-          <p>Username:</p> <EditableUserName value={this.state.username} id="username" />
-        </div>
-        <div className="row">
-          <p>Email address:</p> <EditableEmail value={this.state.email} id="email" />
-        </div>
-
-        <div>
-          <div>
-            <LocationList
-              locations={this.state.locations}
-            />
+          <div className = "container">
+              <div className = "row">
+                <p>Username:</p> <EditableUserName value={this.state.username} id="username" />
+              </div>
+              <div className = "row">
+                <p>Email address:</p> <EditableEmail value={this.state.email} id="email"/>
+              </div>
           </div>
-          <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to="/importlocations">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+
+          <div>        
+            <div>
+              <LocationList 
+                userid={this.props.user.id}
+                history={this.props.history}
+              />
+            </div>
+            <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
             <Link to="/">Go home</Link>
-        </div>
+          </div>
+
         <div>
-          <TwilioResponses 
-            handleInputChange={this.handleInputChange}
-            handleTwilioResponsesSubmit = {this.handleTwilioResponsesSubmit}
-            responses={this.state.twilioResponses}
-            surResValid={this.state.surResValid}
-            surResInvalid={this.state.surResInvalid}
-            comResValid={this.state.comResValid}
-            comResInvalid={this.state.comResInvalid}
-          />
-        </div>
+            <TwilioResponses 
+              handleInputChange={this.handleInputChange}
+              handleTwilioResponsesSubmit = {this.handleTwilioResponsesSubmit}
+              responses={this.state.twilioResponses}
+              surResValid={this.state.surResValid}
+              surResInvalid={this.state.surResInvalid}
+              comResValid={this.state.comResValid}
+              comResInvalid={this.state.comResInvalid}
+            />
+      </div>
 
       </div>
       </div>

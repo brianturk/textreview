@@ -2,7 +2,6 @@
 class Location {
 
     constructor (locationData) {
-
             this.locationName  = locationData.locationName;
             this.phonenumber   = locationData.phonenumber;
             this.street        = locationData.street;
