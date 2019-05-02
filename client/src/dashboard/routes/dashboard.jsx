@@ -1,5 +1,5 @@
-import Dashboard from "./../views/Dashboard/Dashboard.jsx";
-import Detail from "./../pages/Detail";
+import Dashboard from "./../../pages/Dashboard/Dashboard.jsx";
+import Detail from "./../../pages/Detail";
 
 var dashRoutes = [
   {

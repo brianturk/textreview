@@ -30,9 +30,9 @@ import {
   // dashboardShippedProductsChart,
   dashboardAllProductsChart,
   dashboard24HoursPerformanceChart
-} from "../../variables/charts.jsx";
+} from "../../dashboard/variables/charts.jsx";
 import Header from './../../components/Header/Header.jsx';
-// import { tasks } from "../../variables/general.jsx";
+
 import moment from "moment";
 
 // const labels = 

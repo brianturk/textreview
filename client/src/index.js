@@ -18,7 +18,7 @@ import { createBrowserHistory } from "history";
 import 'bootstrap/dist/css/bootstrap.css';
 import "./assets/scss/now-ui-dashboard.css";
 import "./assets/css/demo.css";
-import indexRoutes from "./routes/index.jsx";
+import indexRoutes from "./dashboard/routes/index.jsx";
 
 const hist = createBrowserHistory();
 
