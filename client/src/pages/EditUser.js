@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import AuthService from './../components/AuthService';
 import API from './../utils/API';
 
-class Signup extends Component {
+class EditUser extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
@@ -17,7 +17,7 @@ class Signup extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.signUpUser(this.state.username, this.state.email, this.state.password,
+    API.udpateUser(this.state.username, this.state.email, this.state.password,
                   this.state.street, this.state.city, this.state.state, this.state.zip)
       .then(res => {
         // once the user has signed up
@@ -38,7 +38,7 @@ class Signup extends Component {
     return (
       <div className="container">
 
-        <h1>Signup</h1>
+        <h1>Edit User</h1>
         <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
@@ -113,4 +113,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default EditUser;
