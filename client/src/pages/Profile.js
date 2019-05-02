@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import withAuth from './../components/withAuth';
 import API from './../utils/API';
 import LocationList from '../components/LocationList';
-import contentEditable from '../components/ContentEditable';
 import TwilioResponses from '../components/TwilioResponses';
 
 class Profile extends Component {
@@ -24,6 +23,10 @@ class Profile extends Component {
       this.setState({
         username: res.data.username,
         email: res.data.email,
+        street: res.data.street,
+        city: res.data.city,
+        state: res.data.state,
+        zip: res.data.zip,
         locations: res.data.locations,
         surResValid: res.data.twilioResponses.surResValid || "",
         surResInvalid: res.data.twilioResponses.surResInvalid || "",
@@ -64,32 +67,46 @@ class Profile extends Component {
 
 
   render() {
-    let EditableUserName = contentEditable('p', this, this.handleUserName);
-    let EditableEmail = contentEditable('p');
+
 
     return (
       <div className="container Profile">
-        <h3>Profile page</h3>
-          <div className = "container">
-              <div className = "row">
-                <p>Username:</p> <EditableUserName value={this.state.username} id="username" />
-              </div>
-              <div className = "row">
-                <p>Email address:</p> <EditableEmail value={this.state.email} id="email"/>
-              </div>
-          </div>
 
-          <div>        
-            <div>
-              <LocationList 
-                userid={this.props.user.id}
-                history={this.props.history}
-              />
-            </div>
-            <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to="/">Go home</Link>
-          </div>
+              <div className = "container">  
+                  <h4>Profile Info</h4>
+                    <div className = "row">
+                        <p>Username: {this.state.username} </p>
+                    </div>
+                    <div className = "row">
+                        <p>Email address: {this.state.email} </p>
+                    </div>
+                    <div className = "row">
+                        <p>Street: {this.state.street} </p>
+                    </div>
+                    <div className = "row">
+                        <p>City: {this.state.city} </p>
+                    </div>
+                    <div className = "row">
+                        <p>State: {this.state.state} </p>
+                    </div>
+                    <div className = "row">
+                        <p>Zip: {this.state.zip} </p>
+                    </div>
+                    <Link to="/editprofile">Edit Profile Information</Link>
+              </div>
+        
+              <div className = "container">
+                  <h4>Location Info</h4>      
+                  <div>
+                    <LocationList 
+                      userid={this.props.user.id}
+                      history={this.props.history}
+                    />
+                  </div>
+                  <Link to="/addlocation">Add a location</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+
 
         <div>
             <TwilioResponses 
