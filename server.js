@@ -50,10 +50,12 @@ require("./routes/twilioRoutes")(app);
 // Send every request to the React app
 // Define any API routes before this runs
 require("./routes/apiRoutes.js")(app);
-// require("./routes/htmlRoutes.js")(app);    
+// require("./routes/htmlRoutes.js")(app);   
+require("./routes/dashRoutes.js")(app); 
 
 app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  //res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  res.sendFile(path.join(__dirname, "./client/public/index.html"));
 });
 
 app.listen(PORT, function() {

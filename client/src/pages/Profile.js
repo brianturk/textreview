@@ -7,6 +7,10 @@ import LocationList from '../components/LocationList';
 import contentEditable from '../components/ContentEditable';
 import TwilioResponses from '../components/TwilioResponses';
 
+import Sidebar from './../components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
+import Header from './../components/Header/Header.jsx';
+
 class Profile extends Component {
 
   state = {
@@ -25,10 +29,10 @@ class Profile extends Component {
         username: res.data.username,
         email: res.data.email,
         locations: res.data.locations,
-        surResValid: res.data.twilioResponses.surResValid || "",
-        surResInvalid: res.data.twilioResponses.surResInvalid || "",
-        comResValid: res.data.twilioResponses.comResValid || "",
-        comResInvalid: res.data.twilioResponses.comResInvalid || ""
+        // surResValid: res.data.twilioResponses.surResValid || "",
+        // surResInvalid: res.data.twilioResponses.surResInvalid || "",
+        // comResValid: res.data.twilioResponses.comResValid || "",
+        // comResInvalid: res.data.twilioResponses.comResInvalid || ""
       })
     });
 
@@ -68,6 +72,11 @@ class Profile extends Component {
     let EditableEmail = contentEditable('p');
 
     return (
+      <div className="wrapper">
+        <Sidebar {...this.props} routes={dashboardRoutes} />
+        <div className="main-panel" ref="mainPanel">
+        <div style={{marginBottom:"50px"}}><Header dashColor={"black"} {...this.props} /></div>
+        <hr/>
       <div className="container Profile">
         <h3>Profile page</h3>
           <div className = "container">
@@ -103,6 +112,8 @@ class Profile extends Component {
             />
       </div>
 
+      </div>
+      </div>
       </div>
     )
   }
