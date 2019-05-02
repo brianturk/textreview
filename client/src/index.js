@@ -41,6 +41,7 @@ ReactDOM.render(
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/addlocation" component={AddLocation} />      
             <Route exact path="/editlocation" component={EditLocation} />
+            <Route exact path="/twilio" component={TwilioResponses} />
             {indexRoutes.map((prop, key) => {
               return <Route path={prop.path} key={key} component={prop.component} />;
             })}
