@@ -47,9 +47,9 @@ export default {
 
   // ROUTE FOR DELETING A LOCATION
   // -----------------------------------------------------------------------------------------
-  // app.post("/api/deletelocation", function(req, res) {     
-    deleteLocation: (deleteLocation) => {
-      return axios.delete(`api/deletelocation`, deleteLocation);
+  // app.post("/api/deletelocation/:id/:userid", function(req, res) {     
+    deleteLocation: (id, userid) => {
+      return axios.delete(`api/deletelocation/${id}/${userid}`);
     },
   
 
@@ -57,7 +57,9 @@ export default {
   // -----------------------------------------------------------------------------------------
   // app.post("/api/updatelocation", function(req, res) {     
    updateLocation: (id, updatedLocation) => {
-      return axios.post(`api/updatelocation`, updatedLocation);
+    console.log(`updatedLocation`);
+    console.log(updatedLocation);
+    return axios.post(`api/updatelocation/${id}`, updatedLocation);
     },
     
 

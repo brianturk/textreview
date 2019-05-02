@@ -94,7 +94,8 @@ class LocationList extends Component {
                  <Link to={{
                               pathname: '/editlocation',
                               state: {
-                                row: row.original
+                                row: row.original,
+                                id: row._id
                               }
                             }}><MdCreate /></Link>
                   &nbsp;&nbsp;&nbsp;&nbsp;
@@ -109,34 +110,17 @@ class LocationList extends Component {
         loadingText: false
       }
     
-      // <span onClick={() => this.handleEdit(row.original)}><MdCreate /></span> 
-      // <Link to="/editlocation/"{row.original._id}><MdCreate /></Link>
-      // <Link to={{
-      //   pathname: '/tylermcginnis',
-      //   state: {
-      //     fromNotifications: true
-      //   }
-      // }}>Tyler McGinnis</Link>   
       
-      
-
-      // EDIT A LOCATION 
-      // ------------------------------------------------------------------------------------
-      handleEdit = (row) => {
-
-      }
-
           
       // DELETE A LOCATION 
       // ------------------------------------------------------------------------------------
       handleDelete = (row) => {
-        API.deleteLocation(row)
+        API.deleteLocation(row._id, row.userid)
         .then(res => this.loadLocations())   // once the user has deleted a location reload the state
         .catch(err => alert(err));
       }
 
-
-
+    
       // FORMAT PHONE NUMBER 
       // ------------------------------------------------------------------------------------
      formatPhoneNumber(phoneNumberString) {
@@ -149,7 +133,6 @@ class LocationList extends Component {
         return null
       }
     
-
     
       // RENDER 
       // ------------------------------------------------------------------------------------      

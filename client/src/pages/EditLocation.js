@@ -12,6 +12,7 @@ import Location from '../utils/Location';
 class EditLocation extends Component {
 
     state = {
+        _id:            "",
         locationName:   "",
         street:         "",
         city:           "",
@@ -25,8 +26,6 @@ class EditLocation extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
-
-    console.log(this);
   }
 
   componentDidMount () {
@@ -34,23 +33,38 @@ class EditLocation extends Component {
     console.log(this.props.location.state);
     // this.setState(this.state.locationName, this.props.location.state.locationName);
     //const  row  = this.props.location.state;
+    //this.setState(this.state.id, this.props.location.state.row._id);
+
+    // this.setState(this.state.locationName, this.props.location.state.row.locationName);
+    // this.setState(this.state.locationName, this.props.location.state.row.locationName);
+    // this.setState(this.state.street, this.props.location.state.row.street);
+    // this.setState(this.state.city, this.props.location.state.row.city);
+    // this.setState(this.state.state, this.props.location.state.row.state);
+    // this.setState(this.state.zip, this.props.location.state.row.zip);
+    // this.setState(this.state.phonenumber, this.props.location.state.row.phonenumber);
+
   }
 
   handleFormSubmit = event => {
     event.preventDefault();
 
      // updateLocation : (locationName, street, city, state, zip, phonenumber, userid) 
+     // If the user didn't change a field, it's state will be blank.  In that case, pick up the incoming value
+     // from this.props.location.state.row
     var newLocation = new Location({    
-                                "locationName"  :       this.state.locationName, 
-                                "street"        :       this.state.street, 
-                                "city"          :       this.state.city, 
-                                "state"         :       this.state.state, 
-                                "zip"           :       this.state.zip,
-                                "phonenumber"   :       this.state.phonenumber,
+                                "locationName"  :       this.state.locationName   || this.props.location.state.row.locationName, 
+                                "street"        :       this.state.street         || this.props.location.state.row.street, 
+                                "city"          :       this.state.city           || this.props.location.state.row.city, 
+                                "state"         :       this.state.state          || this.props.location.state.row.state, 
+                                "zip"           :       this.state.zip            || this.props.location.state.row.zip,
+                                "phonenumber"   :       this.state.phonenumber    || this.props.location.state.row.phonenumber,
                                 "userid"        :       this.props.user.id
                             });
 
-    API.updateLocation(newLocation)
+    console.log('handleFormSubmit for Edit');
+    console.log(newLocation);
+    newLocation._id = this.props.location.state.row._id;
+    API.updateLocation(this.props.location.state.row._id, newLocation)
       .then(res => {
         // once the user has updated a location send them to the profile page
         this.props.history.replace('/profile');
@@ -79,7 +93,7 @@ class EditLocation extends Component {
             <label htmlFor="locationName">Location Name:</label>
             <input className="form-control"
                    placeholder={this.props.location.state.row.locationName}
-                   value={this.props.location.state.row.locationName}
+                   defaultValue={this.props.location.state.row.locationName}
                    name="locationName"
                    type="text"
                    id="locationName"
@@ -89,7 +103,7 @@ class EditLocation extends Component {
             <label htmlFor="phonenumber">Phone number:</label>
             <input className="form-control"
                    placeholder="Texting phone number of location goes here..."
-                   value={this.props.location.state.row.phonenumber}
+                   defaultValue={this.props.location.state.row.phonenumber}
                    name="phonenumber"
                    type="text"
                    id="phonenumber"
@@ -99,7 +113,7 @@ class EditLocation extends Component {
             <label htmlFor="street">Street Address:</label>
             <input className="form-control"
                    placeholder="Street goes here..."
-                   value={this.props.location.state.row.street}
+                   defaultValue={this.props.location.state.row.street}
                    name="street"
                    type="text"
                    id="street"
@@ -109,7 +123,7 @@ class EditLocation extends Component {
             <label htmlFor="city">City:</label>
             <input className="form-control"
                    placeholder="City goes here..."
-                   value={this.props.location.state.row.city}
+                   defaultValue={this.props.location.state.row.city}
                    name="city"
                    type="text"
                    id="city"
@@ -119,7 +133,7 @@ class EditLocation extends Component {
             <label htmlFor="state">State:</label>
             <input className="form-control"
                    placeholder="State goes here..."
-                   value={this.props.location.state.row.state}
+                   defaultValue={this.props.location.state.row.state}
                    name="state"
                    type="text"
                    id="state"
@@ -129,7 +143,7 @@ class EditLocation extends Component {
             <label htmlFor="zip">Zip Code:</label>
             <input className="form-control"
                    placeholder="Zip code goes here..."
-                   value={this.props.location.state.row.zip}
+                   defaultValue={this.props.location.state.row.zip}
                    name="zip"
                    type="text"
                    id="zip"
