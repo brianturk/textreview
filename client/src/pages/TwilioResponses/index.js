@@ -47,13 +47,10 @@ class TwilioResponses extends Component {
         const styles = {
             responseInput: {
                 width: "50%",
-                marginLeft: "20px"
             },
             responseLabel: {
-                marginLeft: "20px"
             },
             responseButton: {
-                marginLeft: "20px"
             }
         }
         return (
@@ -63,7 +60,6 @@ class TwilioResponses extends Component {
         <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
         <hr />
         <div className="container">
-                <hr />
                 <h3>Text Responses</h3>
                 <Popup
                     trigger={<label style={styles.responseLabel} htmlFor="surResValid">Valid Survey Response: </label>}
