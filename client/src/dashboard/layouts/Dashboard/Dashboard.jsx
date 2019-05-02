@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 //import { Header, Footer, Sidebar } from "react";
 
-import dashboardRoutes from "./../../../routes/dashboard.jsx";
+import dashboardRoutes from "./../../../dashboard/routes/dashboard.jsx";
 
 import withAuth from './../../../components/withAuth';
 

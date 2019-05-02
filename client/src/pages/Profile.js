@@ -8,7 +8,7 @@ import contentEditable from '../components/ContentEditable';
 import TwilioResponses from '../components/TwilioResponses';
 
 import Sidebar from './../components/Sidebar/Sidebar.jsx';
-import dashboardRoutes from "./../routes/dashboard.jsx";
+import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
 import Header from './../components/Header/Header.jsx';
 
 class Profile extends Component {
