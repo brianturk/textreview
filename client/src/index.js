@@ -13,12 +13,6 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import AddLocation from './pages/AddLocation';
 import EditLocation from './pages/EditLocation';
-<<<<<<< HEAD
-import EditUser from './pages/EditUser';
-import Locations from './pages/Locations';
-import Navbar from './components/Navbar';
-=======
->>>>>>> 8edd2f2a559873eba9cf740d0324019c696a20bb
 
 import { createBrowserHistory } from "history";
 import 'bootstrap/dist/css/bootstrap.css';
