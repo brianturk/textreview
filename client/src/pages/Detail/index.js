@@ -10,7 +10,7 @@ import DateRangePicker from "./../../components/DetailDateRange";
 // import "react-daterange-picker/dist/css/react-calendar.css";
 // import { extendMoment } from "moment-range";
 // const moment = extendMoment(Moment);
-
+import Header from './../../components/Header/Header.jsx';
 
 class Detail extends Component {
 
@@ -205,6 +205,8 @@ class Detail extends Component {
     if (Object.entries(this.state.columns).length === 0) this.generateColumns();
 
     return (
+      <div>
+      <div style={{marginBottom:"50px"}}><Header dashColor={"black"} {...this.props} /></div>
       <ReactTable
         data={this.state.data}
         columns={this.state.columns}
@@ -271,6 +273,7 @@ class Detail extends Component {
 
           </div >}
       />
+      </div>
     )
   }
 }
