@@ -33,8 +33,6 @@ module.exports = app => {
         // ROUTE FOR ADDING A LOCATION TO LOCATION COLLECTION AND ADDING ITS LINK TO USER
         // -----------------------------------------------------------------------------------------
         app.post("/api/addlocation", function(req, res) {       
-            console.log(`addlocation `);
-            console.log(req.body);
             db.Location.create(req.body)
             .then(function(dbLocation) {
                 return db.User.findOneAndUpdate({ _id: req.body.userid }, {$push: { locations: dbLocation._id }}, { new: true });
@@ -69,7 +67,6 @@ module.exports = app => {
         // ROUTE FOR DELETING A LOCATION AND REMOVING ITS LINK FROM OWNING USER
         // -----------------------------------------------------------------------------------------
         app.delete("/api/deletelocation/:id/:userid", function (req, res) {   
-            console.log(`deletelocation ${req.params.id} and from userid ${req.params.userid}`);
             db.Location.findOneAndRemove({ _id: req.params.id })
             .then( () => {  // remove the ID from the user.locations reference array
                 return db.User.findOneAndUpdate({ _id: req.params.userid }, {$pull: { locations: req.params.id }}, { new: true });
@@ -83,11 +80,19 @@ module.exports = app => {
         // ROUTE FOR UPDATING A LOCATION 
         // -----------------------------------------------------------------------------------------
         app.post("/api/updatelocation/:id", (req, res) => {       
-            console.log(`updatelocation ${req.params.id}`);
-            console.log(req.body);
-            db.Location.findOneAndUpdate({ _id: req.params.id }, {location: req.body} , { new: true })
+            db.Location.update({ _id: req.params.id }, { $set : {   locationName: req.body.locationName,
+                                                                    phonenumber : req.body.phonenumber,
+                                                                    street : req.body.street,
+                                                                    city : req.body.city,
+                                                                    state : req.body.state,
+                                                                    zip : req.body.zip
+                                                                } }, { multi:true,  new: true })
+            // db.Location.findOneAndUpdate({ _id: req.params.id }, {location: req.body} , { new: true })
             .then( (dbLocation) => res.json(dbLocation))
-            .catch(err => res.json(err))
+            .catch(err => {
+                console.log(err);
+                res.json(err);
+            });
         });
 
 
