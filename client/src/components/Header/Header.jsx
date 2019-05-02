@@ -95,6 +95,7 @@ class Header extends React.Component {
     }
   }
   componentDidMount() {
+    document.documentElement.classList.value="";
     if (this.props.dashColor) this.setState({dashColor: this.props.dashColor})
     window.addEventListener("resize", this.updateColor.bind(this));
   }

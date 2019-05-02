@@ -92,12 +92,10 @@ class Dashboard extends React.Component {
 
   getDataCharts(phone){
     APIDash.getUserDashData(this.props.user.id, phone).then(res => {
-      //console.log(res.data);
       let newData = [];
       let newLabel = [];
       res.data.forEach(item => {
         newData.push(item.aveRating);
-        //newLabel.push(moment(`${item._id.month}-${item._id.day}-${item._id.year}`).format("MMM-d ddd"));
         newLabel.push(`${item._id.month}-${item._id.day}`);
       });
       this.setState({
@@ -109,7 +107,6 @@ class Dashboard extends React.Component {
     });
 
     API.getLocations(this.props.user.id).then(res => {
-      //console.log(res.data.locations)
       this.setState({
         locations: res.data.locations
       })
@@ -118,7 +115,6 @@ class Dashboard extends React.Component {
     });
 
     APIDash.getUserDashMonthlyData(this.props.user.id, phone).then(res => {
-      //console.log(res.data);
       let newData = [];
       let newLabel = [];
       res.data.forEach(item => {
@@ -135,7 +131,6 @@ class Dashboard extends React.Component {
     });
 
     APIDash.getUserDashInvalidData(this.props.user.id, phone).then(res => {
-      console.log(res.data);
       let newData = [];
       let newLabel = [];
       res.data.forEach(item => {
