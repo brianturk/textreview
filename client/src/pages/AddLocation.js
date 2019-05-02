@@ -9,6 +9,10 @@ import withAuth from './../components/withAuth';
 import API from './../utils/API';
 import Location from './../utils/Location';
 
+import Sidebar from './../components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
+import Header from './../components/Header/Header.jsx';
+
 class AddLocation extends Component {
 
     state = {
@@ -59,6 +63,11 @@ class AddLocation extends Component {
 
   render() {
     return (
+      <div className="wrapper">
+      <Sidebar {...this.props} routes={dashboardRoutes} />
+      <div className="main-panel" ref="mainPanel">
+        <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
+        <hr />
       <div className="container">
 
         <h1>Add Location</h1>
@@ -120,6 +129,8 @@ class AddLocation extends Component {
 
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
+      </div>
+      </div>
       </div>
     );
   }

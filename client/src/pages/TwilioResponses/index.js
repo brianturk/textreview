@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import API from "../../utils/API";
 import withAuth from '../../components/withAuth';
 
+import Sidebar from './../../components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./../../dashboard/routes/dashboard.jsx";
+import Header from './../../components/Header/Header.jsx';
 
 class TwilioResponses extends Component {
 
@@ -46,8 +49,12 @@ class TwilioResponses extends Component {
             }
         }
         return (
-        <div>
-            <hr />
+          <div className="wrapper">
+      <Sidebar {...this.props} routes={dashboardRoutes} />
+      <div className="main-panel" ref="mainPanel">
+        <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
+        <hr />
+        <div className="container">
             <h3>Text Responses</h3>
             <label htmlFor="surResValid">Valid Survey Response: </label>
             <input value={this.state.surResValid} onChange={this.handleInputChange} style={styles.responseInput} type="text" name="surResValid"></input>
@@ -61,6 +68,8 @@ class TwilioResponses extends Component {
             <label htmlFor="comResInvalid">Invalid Comment Response: </label>
             <input value={this.state.comResInvalid} onChange={this.handleInputChange} style={styles.responseInput} type="text" name="comResInvalid"></input>
             <button onClick={this.handleTwilioResponsesSubmit}>Submit Responses</button>
+        </div>
+        </div>
         </div>
         )
     }
