@@ -69,8 +69,8 @@ module.exports = app => {
         // -----------------------------------------------------------------------------------------
         // TODO: extend to remove ID from user.locations array
         app.delete("/api/deletelocation/:id", (req, res) => {   
-            console.log(`DELETE ${req.params.id}`);
-            db.Location.findOneAndRemove({ _id: req.params.id })
+            console.log(`DELETE ${req.body}`);
+            db.Location.findOneAndRemove({ _id: req.body.id })
             .then( (dbLocation) => {
                 return db.User.findOneAndUpdate({ _id: req.body.userid }, {$pull: { locations: dbLocation._id }}, { new: true });
                 })
