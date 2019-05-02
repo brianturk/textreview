@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 
 import registerServiceWorker from './registerServiceWorker';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import axios from "axios";
 
 // Our Components
@@ -35,7 +35,7 @@ ReactDOM.render(
     <Router>
         <div>
             <Switch>
-            <Route exact path="/" component={App} />
+            <Route exact path="/" render={()=><Redirect to="/dashboard" />} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile" component={Profile} />

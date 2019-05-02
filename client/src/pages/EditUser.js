@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import AuthService from './../components/AuthService';
 import API from './../utils/API';
 
+import Sidebar from './../components/Sidebar/Sidebar.jsx';
+import dashboardRoutes from "./../dashboard/routes/dashboard.jsx";
+import Header from './../components/Header/Header.jsx';
+
 class EditUser extends Component {
   constructor() {
     super();
@@ -35,6 +39,11 @@ class EditUser extends Component {
 
   render() {
     return (
+      <div className="wrapper">
+      <Sidebar {...this.props} routes={dashboardRoutes} />
+      <div className="main-panel" ref="mainPanel">
+        <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
+        <hr />
       <div className="container">
 
         <h1>Edit User</h1>
@@ -106,6 +115,8 @@ class EditUser extends Component {
 
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
+      </div>
+      </div>
       </div>
     );
   }
