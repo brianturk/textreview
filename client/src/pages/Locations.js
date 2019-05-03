@@ -10,14 +10,6 @@ import Header from './../components/Header/Header.jsx';
 
 class Locations extends Component {
     
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-
-    // redirect to Add Location 
-    this.props.history.replace('/addlocation');
-  }
-
   render() {
     return (
       <div className="wrapper">
