@@ -46,7 +46,7 @@ class EditUser extends Component {
         <hr />
       <div className="container">
 
-        <h1>Edit User</h1>
+        <h4>Edit User</h4>
         <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
