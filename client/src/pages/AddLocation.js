@@ -49,7 +49,7 @@ class AddLocation extends Component {
     API.addLocation(newLocation)
       .then(res => {
         // once the user has added a location send them to the profile page
-        this.props.history.replace('/profile');
+        this.props.history.replace('/locationlist');
       })
       .catch(err => alert(err));
   };

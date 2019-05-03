@@ -25,25 +25,21 @@ class Locations extends Component {
       <div className="main-panel" ref="mainPanel">
         <div style={{ marginBottom: "50px" }}><Header dashColor={"black"} {...this.props} /></div>
         <hr />
-      <div className="container Profile">
-              <div className = "container">
-                  <h4>Location Info</h4>      
-                  <div>
-                    <LocationList 
-                      userid={this.props.user.id}
-                    />
-                  </div>
-              </div>
-
-{/*           <Link to="/importlocations/">Import locations</Link>&nbsp;&nbsp;&nbsp;&nbsp; */}
-          
-        <form action="/addlocation">
-          <button type="submit" className="btn btn-primary">Add a location</button>
-        </form>
-
+        <div className="container Profile">
+          <div className = "container">
+            <h4>Location Info</h4>      
+            <div>
+              <LocationList 
+                userid={this.props.user.id}
+              />
+            </div>
+            <form action="/addlocation">
+              <button type="submit" className="btn btn-primary">Add a location</button>
+            </form>
+          </div>
+        </div>
       </div>
-      </div>
-      </div>
+    </div>
     )
   }
 }
