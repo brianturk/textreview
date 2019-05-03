@@ -70,7 +70,7 @@ class AddLocation extends Component {
         <hr />
       <div className="container">
 
-        <h1>Add Location</h1>
+        <h4>Add Location</h4>
         <form onSubmit={this.handleFormSubmit}>
           <div className="form-group">
             <label htmlFor="locationName">Location Name:</label>
