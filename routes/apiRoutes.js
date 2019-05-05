@@ -60,9 +60,9 @@ module.exports = app => {
     if (req.body.passcode === 'sasparilla') {
       let user =
       {
-        username: 'vernsair',
-        email: 'bturksub@gmail.com',
-        password: 'password',
+        username: 'demoguy',
+        email: 'demouser@demo.com',
+        password: '12345',
         streetaddress: '123 West Elm Ln',
         city: 'San Diego',
         state: 'CA',
@@ -183,13 +183,13 @@ module.exports = app => {
 
                 var location = item
                 var x = 0;
-                for (x = 0; x < 200; x++) {
+                for (x = 0; x < 500; x++) {
                   //pick random location
 
                   var customer = numbers[Math.floor(Math.random() * numbers.length)]
                   var rating = Math.floor(Math.random() * 10) + 1
 
-                  var firstDay = moment().subtract(31, 'days')
+                  var firstDay = moment().subtract(181, 'days')
                   var lastDay = moment().subtract(1, 'days')
                   var daysBetween = lastDay.diff(firstDay, 'days')
 
