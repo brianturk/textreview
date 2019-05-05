@@ -346,14 +346,13 @@ Home Page Press Logo Style
 /* --------------------------------------------------
 Footer Style
 -------------------------------------------------- */
-
+/* 
 footer {
   font: 13px "FuturaPTBook-Reg", Arial, sans-serif;
   background-color: #000;
   color: #fff;
-  /* padding: 55px 0 20px; */
 }
-
+*/
 footer p {
   width: 100%;
   text-align: center;
@@ -488,7 +487,7 @@ footer #subscribe-form-submit {
   color: #fff;
   height: 35px;
   width: 25%;
-}
+} 
 
 .carousel-inner > .item > .slide {
   background-image: url(../img/90181.jpg);

@@ -1536,8 +1536,8 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
   color: #9A9A9A; }
 
 .navbar {
-  padding-top: 0.625rem;
-  padding-bottom: 1.25rem;
+  /* padding-top: 0.625rem;
+  padding-bottom: 1.25rem; */
   min-height: 53px;
   margin-bottom: 20px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15); }
@@ -1677,6 +1677,10 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     /* padding-top: 0.5rem; */
     /* padding-bottom: 0.5rem; */
     line-height: 1.625rem; }
+    .navbar-brand {
+      padding-top: 0; 
+      padding-bottom: 0;
+   }
   .navbar .navbar-toggler {
     width: 37px;
     height: 27px;

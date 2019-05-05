@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './assets/css/style.css';
 import './assets/css/style1.css';
 import AuthService from './components/AuthService';
 import withAuth from './components/withAuth';
@@ -189,7 +188,12 @@ class App extends Component {
               </div>
             </div>
           </div>
-          <footer>
+          <footer style={{
+
+              font: "13px 'FuturaPTBook-Reg', Arial, sans-serif",
+              backgroundColor: "#000",
+              color: "#fff"
+          }}>
             <div className="copyright">
               <p>© 2019 </p>
               <p><a href="https://www.freepik.com/free-photos-vectors/business">Business photo created by freepik - www.freepik.com</a></p>
