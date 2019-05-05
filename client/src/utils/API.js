@@ -23,8 +23,30 @@ export default {
       street: street,
       city: city,
       state: state,
-      zip: zip
+      zip: zip,
+      twilioResponses: {
+        surResValid: "",
+        surResInvalid: "",
+        comResValid: "",
+        comResInvalid: ""
+      }
     });
+  },
+
+
+  // EDIT USER (BASED ON SIGNUP PAGE)
+  // -----------------------------------------------------------------------------------------
+  // app.post('/api/updateuser', (req, res) => {
+  updateUser : (id, username, email, password,street, city, state, zip) => {
+    return axios.post(`api/updateuser/${id}`, {
+      username: username,
+      email: email,
+      password: password,
+      street: street,
+      city: city,
+      state: state,
+      zip: zip
+    })
   },
 
 
@@ -44,15 +66,23 @@ export default {
   },
 
 
-
   // ROUTE FOR DELETING A LOCATION
   // -----------------------------------------------------------------------------------------
-  // app.post("/api/deletelocation", function(req, res) {     
-    deleteLocation: (id) => {
-      return axios.delete(`api/deletelocation/${id}`);
+  // app.post("/api/deletelocation/:id/:userid", function(req, res) {     
+    deleteLocation: (id, userid) => {
+      return axios.delete(`api/deletelocation/${id}/${userid}`);
     },
   
-  
+
+  // ROUTE FOR UPDATING A LOCATION
+  // -----------------------------------------------------------------------------------------
+  // app.post("/api/updatelocation", function(req, res) {     
+   updateLocation: (id, updatedLocation) => {
+    console.log(`updatedLocation`);
+    console.log(updatedLocation);
+    return axios.post(`api/updatelocation/${id}`, updatedLocation);
+    },
+    
 
 
   //Get the texts for the detail page

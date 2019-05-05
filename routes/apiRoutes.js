@@ -15,7 +15,7 @@ module.exports = app => {
       .catch(err => res.status(400).json(err));
   });
 
-//I deleted because it is in userCreateRoutes.js - bmt
+  //I deleted because it is in userCreateRoutes.js - bmt
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
   // app.get('/api/user/:id', isAuthenticated, (req, res) => {
@@ -28,18 +28,18 @@ module.exports = app => {
   //   }).catch(err => res.status(400).send(err));
   // });
 
- // Any route with isAuthenticated is protected and you need a valid token
+  // Any route with isAuthenticated is protected and you need a valid token
   // to access
   app.get('/api/textDetail/', isAuthenticated, (req, res) => {
-    db.Text.find({userid: req.user.id})
-    .then(data => {
+    db.Text.find({ userid: req.user.id })
+      .then(data => {
         // console.log(data)
         res.json(data);
-    }).catch(err => res.status(400).send(err));
+      }).catch(err => res.status(400).send(err));
   });
 
   app.post("/api/twilio/updateResponses", isAuthenticated, (req, res) => {
-    db.User.findOneAndUpdate({_id: req.user.id}, {
+    db.User.findOneAndUpdate({ _id: req.user.id }, {
       twilioResponses: {
         surResValid: req.body.surResValid,
         surResInvalid: req.body.surResInvalid,
@@ -66,7 +66,13 @@ module.exports = app => {
         streetaddress: '123 West Elm Ln',
         city: 'San Diego',
         state: 'CA',
-        zipCode: '87343'
+        zipCode: '87343',
+        twilioResponses: {
+          surResValid: "This is a test",
+          surResInvalid: "NOTHER TEST",
+          comResValid: "BLAH BLAH BLAH",
+          comResInvalid: "Hello"
+        },
       }
 
       let locations = [
@@ -76,7 +82,7 @@ module.exports = app => {
           city: 'La Jolla',
           state: 'CA',
           zipCode: '92037',
-          phonenumber: '6193044042'
+          phonenumber: '+16193044042'
         },
         {
           locationName: 'Atlantic',
@@ -138,7 +144,7 @@ module.exports = app => {
             "Poorly done.  The food was served slowly and tasted terrible"
           ]
 
-         
+
 
 
 
@@ -193,9 +199,9 @@ module.exports = app => {
                   var firstTime = firstTime.add(Math.floor(Math.random() * 60), 'minutes')
                   var firstTime = firstTime.add(Math.floor(Math.random() * 60), 'seconds')
 
-                  secondTime = moment(firstTime).add(Math.floor(Math.random() * 60),'minutes');
+                  secondTime = moment(firstTime).add(Math.floor(Math.random() * 60), 'minutes');
 
-                  
+
                   var comment = ""
                   if (rating < 6) {
                     comment = badComments[Math.floor(Math.random() * badComments.length)]
@@ -252,7 +258,7 @@ module.exports = app => {
     return new Promise(async function (resolve, reject) {
       db.Location.create(item)
         .then(data => {
-          db.User.findOneAndUpdate({_id: item.userid}, {"$push":{locations: data._id}}, { new: true })
+          db.User.findOneAndUpdate({ _id: item.userid }, { "$push": { locations: data._id } }, { new: true })
             .then(data => resolve(data))
             .catch(err => resolve(err))
         })

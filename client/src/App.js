@@ -10,7 +10,7 @@ class App extends Component {
 
   handleLogout = () => {
     Auth.logout();
-    this.props.history.replace('/signup');
+    this.props.history.replace('/login');
   };
 
   goToEditProfile = () => {
