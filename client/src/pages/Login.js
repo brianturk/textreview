@@ -41,7 +41,7 @@ class Login extends Component {
       <div>
         <Navbar />
         <div className="container">
-          <h1>Login</h1>
+          <h4>Login</h4>
           <form onSubmit={this.handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="email">Email address:</label>

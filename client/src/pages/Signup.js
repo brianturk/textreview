@@ -51,7 +51,7 @@ class Signup extends Component {
       <div>
         <Navbar />
         <div className="container">
-          <h1>Signup</h1>
+          <h4>Signup</h4>
           <form onSubmit={this.handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username:</label>
