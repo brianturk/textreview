@@ -104,8 +104,9 @@ class Detail extends Component {
         headerStyle: { textAlign: 'right' },
         maxWidth: 145,
         Cell: row => <span>{Moment(row.value).format('M/D/YY h:mma')}</span>,
-        Filter: ({ filter, onChange }) =>
-          <DateRangePicker updateFilter={this.updateFilter}/>
+        // removing because it makes everything slow
+        // Filter: ({ filter, onChange }) =>
+          // <DateRangePicker updateFilter={this.updateFilter}/>
       },
       {
         Header: 'Location #',
@@ -177,7 +178,7 @@ class Detail extends Component {
               }
 
               //get the proper page size based on the window height
-              var pageSize = Math.floor(window.innerHeight / 45) - 2
+              var pageSize = Math.floor(window.innerHeight / 43) - 2
 
               if (pageSize < 10) {
                 pageSize = 10
@@ -214,7 +215,8 @@ class Detail extends Component {
         multiSort={true}
         resizable={true}
         filterable={true}
-        filtered={this.state.filtered}
+        // removed because it makes everything slow
+        // filtered={this.state.filtered}
         onFilteredChange={filtered => this.setState({ filtered })}
         loading={this.state.loading}
         loadingText={'Loading...'}
@@ -225,28 +227,29 @@ class Detail extends Component {
             return String(row[filter.id]).toLowerCase().includes(String(filter.value).toLowerCase())
           } if (filter.id === 'createdAt') {    //figure out date range
 
-            // var dates = filter.value.split(' ')
-            // var startDate = ""
-            // var endDate = ""
-            // dates.forEach(value => {
-            //   var dateCheck = Moment(value)
-            //   if (dateCheck.isValid()) {
-            //     if (startDate === "") {
-            //       startDate = dateCheck
-            //     } else if (endDate === "") {
-            //       endDate = dateCheck
-            //     }
-            //   }
-            // })
+            var dates = filter.value.split(' ')
+            var startDate = ""
+            var endDate = ""
+            dates.forEach(value => {
+              var dateCheck = Moment(value)
+              if (dateCheck.isValid()) {
+                if (startDate === "") {
+                  startDate = dateCheck
+                } else if (endDate === "") {
+                  endDate = dateCheck
+                }
+              }
+            })
 
-            // if ((startDate !== "") && (endDate === "")) {
-            //   return startDate.diff(Moment(row.createdAt)) < 0
-            // } else if (endDate !== "") {
-            //   return startDate.diff(Moment(row.createdAt)) <= 0 && endDate.add(1, 'day').diff(Moment(row.createdAt)) >= 0
-            // }
+            if ((startDate !== "") && (endDate === "")) {
+              return startDate.diff(Moment(row.createdAt)) < 0
+            } else if (endDate !== "") {
+              return startDate.diff(Moment(row.createdAt)) <= 0 && endDate.add(1, 'day').diff(Moment(row.createdAt)) >= 0
+            }
 
             // console.log(this.state.startDate);
-            return Moment(this.state.startDate).diff(Moment(row.createdAt)) <= 0 && Moment(this.state.endDate).add(1, 'day').diff(Moment(row.createdAt)) >= 0
+            // removed because it made everything slow
+            // return Moment(this.state.startDate).diff(Moment(row.createdAt)) <= 0 && Moment(this.state.endDate).add(1, 'day').diff(Moment(row.createdAt)) >= 0
             
 
             // return true
