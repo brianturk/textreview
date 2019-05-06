@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
       let newData = [];
       let newLabel = [];
       res.data.forEach(item => {
-        newData.push(item.aveRating);
+        newData.push(item.sum);
         newLabel.push(`${item._id.month}-${item._id.day}`);
       });
       this.setState({
