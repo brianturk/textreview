@@ -107,7 +107,7 @@ class App extends Component {
 
             <div className="container">
               <div className="row home-prods">
-                <div className="col-md-12">
+                <div className="col-8 offset-2">
 
                   <div className="row">
                     <div className="col-md-12 col-xs-12"><h2>About The Product</h2></div>
