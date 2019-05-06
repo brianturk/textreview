@@ -67,9 +67,24 @@ class Profile extends Component {
                 <p>Zip: {this.state.zip} </p>
             </div>
           </div>
-          <form action="/edituser">
-            <button type="submit" className="btn btn-primary">Edit Profile</button>
-          </form>
+          <Link className="btn btn-primary"
+            to={{
+              pathname: "/edituser",
+              state : {
+                userid:   this.props.user.id,
+                username: this.state.username,
+                email:    this.state.email,
+                street:   this.state.street,
+                city:     this.state.city,
+                state:    this.state.state,
+                zip:      this.state.zip
+              }
+
+            }}
+          > Edit User 
+          </Link>
+
+
         </div>
       </div>
     </div>
