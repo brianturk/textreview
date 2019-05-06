@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-// import "./index.css";
+// import "./style.css";
 import ReactTable from 'react-table'
 import "react-table/react-table.css";
 import Moment from 'moment'
