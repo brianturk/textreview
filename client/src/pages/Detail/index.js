@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-// import "./style.css";
 import ReactTable from 'react-table'
 import "react-table/react-table.css";
 import Moment from 'moment'
@@ -15,8 +14,7 @@ import Header from './../../components/Header/Header.jsx';
 class Detail extends Component {
 
   state = {
-    columns: []
-    ,
+    columns: [],
     data: [],
     loadingText: false,
     locations: [],
