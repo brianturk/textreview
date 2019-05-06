@@ -1686,7 +1686,9 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     height: 27px;
     vertical-align: middle;
     outline: 0;
-    cursor: pointer; }
+    cursor: pointer; 
+    border: transparent;
+  }
     .navbar .navbar-toggler .navbar-toggler-bar.navbar-kebab {
       width: 3px;
       height: 3px;
